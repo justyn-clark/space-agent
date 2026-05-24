@@ -54,7 +54,7 @@ Current defaults:
 - local provider: `huggingface`
 - Hugging Face dtype: `q4`
 - API endpoint: `https://openrouter.ai/api/v1/chat/completions`
-- model: `openai/gpt-5.4-mini`
+- model: `openai/gpt-5.5-mini`
 - params: `temperature:0.2`
 - max tokens: `120000`
 - prompt-budget ratios: `system 30`, `history 40`, `transient 30`, `singleMessage 10`

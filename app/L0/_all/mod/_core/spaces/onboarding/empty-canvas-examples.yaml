@@ -1,4 +1,12 @@
 examples:
+  - text: JCN Web Audio Lab
+    kind: widget
+    icon: graphic_eq
+    color: "#67d9ff"
+    code: |
+      await helpers.getSpacesRuntime().installExampleSpace({
+        sourcePath: "L0/_all/mod/_core/spaces/onboarding/example_spaces/jcn-web-audio-lab/"
+      })
   - text: Create a weather report
     prompt: Create a weather report. Use https://ipapi.co/json/ to get an approximate location. Do not use exact browser geolocation. Fetch weather from https://api.met.no/weatherapi/locationforecast/2.0/compact. Use the `pdf-report` skill to create and download a browser PDF report with structure and styling chosen for this report instead of a canned template, then reply with a brief weather summary.
     kind: chat

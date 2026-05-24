@@ -1,0 +1,224 @@
+schema: space-widget/v1
+id: step-sequencer
+name: Step Sequencer
+cols: 14
+rows: 6
+col: 10
+row: 0
+renderer: |-
+  async (parent, currentSpace, context) => {
+    const lab = await context.import("scripts/audio-lab-engine.js")
+
+    parent.style.cssText = `
+      all: initial;
+      display: block;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #f3f9ff;
+    `
+
+    const NOTE_CHOICES = [
+      { label: "C", value: 0 },
+      { label: "D", value: 2 },
+      { label: "Eb", value: 3 },
+      { label: "F", value: 5 },
+      { label: "G", value: 7 },
+      { label: "A", value: 9 },
+      { label: "Bb", value: 10 },
+      { label: "C+", value: 12 }
+    ]
+
+    const style = document.createElement("style")
+    style.textContent = `
+      .jcn-step-sequencer {
+        display: grid;
+        grid-template-rows: auto auto 1fr;
+        gap: 14px;
+        width: 100%;
+        height: 100%;
+      }
+      .jcn-step-sequencer-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .jcn-step-sequencer-title {
+        display: grid;
+        gap: 4px;
+      }
+      .jcn-step-sequencer-kicker {
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(135, 224, 255, 0.78);
+      }
+      .jcn-step-sequencer-heading {
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+      .jcn-step-sequencer-copy {
+        font-size: 13px;
+        color: rgba(243, 249, 255, 0.72);
+        max-width: 32rem;
+        line-height: 1.5;
+      }
+      .jcn-step-sequencer-grid {
+        display: grid;
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .jcn-step-sequencer-cell {
+        display: grid;
+        gap: 8px;
+        padding: 12px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.045);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        min-height: 0;
+      }
+      .jcn-step-sequencer-cell.is-current {
+        border-color: rgba(120, 236, 255, 0.5);
+        background: linear-gradient(180deg, rgba(118, 232, 255, 0.16), rgba(255, 255, 255, 0.045));
+        box-shadow: 0 0 24px rgba(104, 222, 255, 0.12);
+      }
+      .jcn-step-sequencer-index {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(243, 249, 255, 0.56);
+      }
+      .jcn-step-sequencer-toggle {
+        border: none;
+        border-radius: 12px;
+        min-height: 48px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.08);
+        color: rgba(243, 249, 255, 0.9);
+      }
+      .jcn-step-sequencer-toggle.is-on {
+        background: linear-gradient(135deg, rgba(119, 231, 255, 0.88), rgba(124, 247, 210, 0.88));
+        color: #06131f;
+      }
+      .jcn-step-sequencer-note {
+        width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
+        background: rgba(3, 10, 18, 0.72);
+        color: #f3f9ff;
+        padding: 8px 10px;
+        font-size: 13px;
+        box-sizing: border-box;
+      }
+      .jcn-step-sequencer-note-label {
+        font-size: 12px;
+        color: rgba(243, 249, 255, 0.72);
+      }
+      .jcn-step-sequencer-root {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.05);
+        color: rgba(243, 249, 255, 0.74);
+        font-size: 12px;
+      }
+      @media (max-width: 1100px) {
+        .jcn-step-sequencer-grid {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+      }
+    `
+    parent.appendChild(style)
+
+    const root = document.createElement("div")
+    root.className = "jcn-step-sequencer"
+    parent.appendChild(root)
+
+    const header = document.createElement("div")
+    header.className = "jcn-step-sequencer-header"
+    header.innerHTML = `
+      <div class="jcn-step-sequencer-title">
+        <div class="jcn-step-sequencer-kicker">Pattern builder</div>
+        <div class="jcn-step-sequencer-heading">Step Sequencer</div>
+      </div>
+    `
+    root.appendChild(header)
+
+    const rootNoteBadge = document.createElement("div")
+    rootNoteBadge.className = "jcn-step-sequencer-root"
+    rootNoteBadge.textContent = "Root C3"
+    header.appendChild(rootNoteBadge)
+
+    const copy = document.createElement("div")
+    copy.className = "jcn-step-sequencer-copy"
+    copy.textContent = "Toggle steps on or off, then choose pitch offsets for each lane. This first version is intentionally simple and shared-state friendly."
+    root.appendChild(copy)
+
+    const grid = document.createElement("div")
+    grid.className = "jcn-step-sequencer-grid"
+    root.appendChild(grid)
+
+    const cells = Array.from({ length: 8 }, (_, index) => {
+      const cell = document.createElement("div")
+      cell.className = "jcn-step-sequencer-cell"
+      cell.innerHTML = `<div class="jcn-step-sequencer-index">Step ${index + 1}</div>`
+
+      const toggle = document.createElement("button")
+      toggle.className = "jcn-step-sequencer-toggle"
+      toggle.type = "button"
+      cell.appendChild(toggle)
+
+      const noteLabel = document.createElement("div")
+      noteLabel.className = "jcn-step-sequencer-note-label"
+      noteLabel.textContent = "Pitch"
+      cell.appendChild(noteLabel)
+
+      const select = document.createElement("select")
+      select.className = "jcn-step-sequencer-note"
+      NOTE_CHOICES.forEach((choice) => {
+        const option = document.createElement("option")
+        option.value = String(choice.value)
+        option.textContent = choice.label
+        select.appendChild(option)
+      })
+      cell.appendChild(select)
+
+      toggle.addEventListener("click", () => {
+        const snapshot = lab.read()
+        const step = snapshot.steps[index]
+        lab.updateStep(index, { active: !step.active })
+      })
+
+      select.addEventListener("change", () => {
+        lab.updateStep(index, { semitones: Number(select.value) })
+      })
+
+      grid.appendChild(cell)
+      return { cell, select, toggle }
+    })
+
+    function render(snapshot) {
+      rootNoteBadge.textContent = `Root ${snapshot.rootNoteLabel}`
+
+      snapshot.steps.forEach((step, index) => {
+        const refs = cells[index]
+        refs.toggle.textContent = step.active ? `On ${step.noteLabel}` : "Muted"
+        refs.toggle.classList.toggle("is-on", step.active)
+        refs.cell.classList.toggle("is-current", snapshot.running && snapshot.currentStep === index)
+        refs.select.value = String(step.semitones)
+      })
+    }
+
+    const unsubscribe = lab.subscribe(render)
+
+    return () => {
+      unsubscribe()
+    }
+  }

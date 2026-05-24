@@ -1,0 +1,268 @@
+schema: space-widget/v1
+id: audio-transport
+name: Audio Transport
+cols: 10
+rows: 4
+col: 0
+row: 0
+renderer: |-
+  async (parent, currentSpace, context) => {
+    const lab = await context.import("scripts/audio-lab-engine.js")
+
+    parent.style.cssText = `
+      all: initial;
+      display: block;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #eff7ff;
+    `
+
+    const style = document.createElement("style")
+    style.textContent = `
+      .jcn-audio-transport {
+        display: grid;
+        grid-template-rows: auto auto 1fr auto;
+        gap: 12px;
+        width: 100%;
+        height: 100%;
+      }
+      .jcn-audio-transport-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .jcn-audio-transport-title {
+        display: grid;
+        gap: 4px;
+      }
+      .jcn-audio-transport-kicker {
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(132, 224, 255, 0.76);
+      }
+      .jcn-audio-transport-heading {
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+      .jcn-audio-transport-status {
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        font-size: 12px;
+        color: rgba(239, 247, 255, 0.82);
+      }
+      .jcn-audio-transport-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .jcn-audio-transport-button {
+        border: none;
+        border-radius: 14px;
+        padding: 12px 16px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        color: #06131f;
+        background: linear-gradient(135deg, #77e7ff 0%, #7cf7d2 100%);
+        box-shadow: 0 10px 28px rgba(79, 223, 255, 0.2);
+      }
+      .jcn-audio-transport-button.secondary {
+        background: rgba(255, 255, 255, 0.08);
+        color: #eff7ff;
+        box-shadow: none;
+      }
+      .jcn-audio-transport-controls {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .jcn-audio-transport-control {
+        display: grid;
+        gap: 8px;
+        padding: 12px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .jcn-audio-transport-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: rgba(239, 247, 255, 0.6);
+      }
+      .jcn-audio-transport-value {
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .jcn-audio-transport-range {
+        width: 100%;
+        accent-color: #79eff0;
+      }
+      .jcn-audio-transport-steps {
+        display: grid;
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        gap: 8px;
+      }
+      .jcn-audio-transport-step {
+        display: grid;
+        place-items: center;
+        min-height: 34px;
+        border-radius: 12px;
+        font-size: 12px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        color: rgba(239, 247, 255, 0.62);
+      }
+      .jcn-audio-transport-step.is-active {
+        background: linear-gradient(135deg, rgba(119, 231, 255, 0.24), rgba(124, 247, 210, 0.2));
+        border-color: rgba(125, 241, 255, 0.5);
+        color: #f8fdff;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05), 0 0 24px rgba(101, 230, 255, 0.12);
+      }
+      .jcn-audio-transport-step.is-running {
+        color: #06131f;
+        background: linear-gradient(135deg, #77e7ff 0%, #7cf7d2 100%);
+      }
+      .jcn-audio-transport-warning {
+        padding: 14px;
+        border-radius: 14px;
+        background: rgba(255, 170, 120, 0.1);
+        border: 1px solid rgba(255, 170, 120, 0.18);
+        color: rgba(255, 226, 203, 0.9);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+    `
+    parent.appendChild(style)
+
+    const root = document.createElement("div")
+    root.className = "jcn-audio-transport"
+    parent.appendChild(root)
+
+    const top = document.createElement("div")
+    top.className = "jcn-audio-transport-top"
+    root.appendChild(top)
+
+    const titleWrap = document.createElement("div")
+    titleWrap.className = "jcn-audio-transport-title"
+    titleWrap.innerHTML = `
+      <div class="jcn-audio-transport-kicker">JCN Web Audio Lab</div>
+      <div class="jcn-audio-transport-heading">Transport</div>
+    `
+    top.appendChild(titleWrap)
+
+    const status = document.createElement("div")
+    status.className = "jcn-audio-transport-status"
+    status.textContent = "Stopped"
+    top.appendChild(status)
+
+    const actions = document.createElement("div")
+    actions.className = "jcn-audio-transport-actions"
+    root.appendChild(actions)
+
+    const toggleButton = document.createElement("button")
+    toggleButton.className = "jcn-audio-transport-button"
+    toggleButton.textContent = "Start transport"
+    actions.appendChild(toggleButton)
+
+    const previewButton = document.createElement("button")
+    previewButton.className = "jcn-audio-transport-button secondary"
+    previewButton.textContent = "Preview root note"
+    actions.appendChild(previewButton)
+
+    const controls = document.createElement("div")
+    controls.className = "jcn-audio-transport-controls"
+    root.appendChild(controls)
+
+    const createRangeControl = (labelText, min, max, step) => {
+      const wrap = document.createElement("label")
+      wrap.className = "jcn-audio-transport-control"
+      const label = document.createElement("div")
+      label.className = "jcn-audio-transport-label"
+      label.textContent = labelText
+      const value = document.createElement("div")
+      value.className = "jcn-audio-transport-value"
+      const input = document.createElement("input")
+      input.className = "jcn-audio-transport-range"
+      input.type = "range"
+      input.min = String(min)
+      input.max = String(max)
+      input.step = String(step)
+      wrap.append(label, value, input)
+      controls.appendChild(wrap)
+      return { input, value }
+    }
+
+    const tempoControl = createRangeControl("Tempo", 60, 180, 1)
+    const swingControl = createRangeControl("Swing", 0, 48, 1)
+    const volumeControl = createRangeControl("Master", 0, 100, 1)
+
+    const stepsRow = document.createElement("div")
+    stepsRow.className = "jcn-audio-transport-steps"
+    root.appendChild(stepsRow)
+
+    const stepNodes = Array.from({ length: 8 }, (_, index) => {
+      const node = document.createElement("div")
+      node.className = "jcn-audio-transport-step"
+      node.textContent = String(index + 1)
+      stepsRow.appendChild(node)
+      return node
+    })
+
+    const warning = document.createElement("div")
+    warning.className = "jcn-audio-transport-warning"
+    warning.textContent = "Web Audio is not available in this browser."
+    root.appendChild(warning)
+
+    function render(snapshot) {
+      const runningText = snapshot.running ? `Running step ${snapshot.currentStep + 1}` : "Stopped"
+      status.textContent = runningText
+      toggleButton.textContent = snapshot.running ? "Stop transport" : "Start transport"
+      tempoControl.input.value = String(snapshot.tempo)
+      tempoControl.value.textContent = `${snapshot.tempo} BPM`
+      swingControl.input.value = String(Math.round(snapshot.swing * 100))
+      swingControl.value.textContent = `${Math.round(snapshot.swing * 100)}%`
+      volumeControl.input.value = String(Math.round(snapshot.masterVolume * 100))
+      volumeControl.value.textContent = `${Math.round(snapshot.masterVolume * 100)}%`
+      warning.hidden = snapshot.supported
+
+      snapshot.steps.forEach((step, index) => {
+        const node = stepNodes[index]
+        node.classList.toggle("is-active", step.active)
+        node.classList.toggle("is-running", snapshot.running && snapshot.currentStep === index)
+      })
+    }
+
+    const unsubscribe = lab.subscribe(render)
+
+    toggleButton.addEventListener("click", () => {
+      void lab.toggleRunning()
+    })
+
+    previewButton.addEventListener("click", () => {
+      void lab.triggerPreview(0, 1.05)
+    })
+
+    tempoControl.input.addEventListener("input", () => {
+      lab.setTempo(tempoControl.input.value)
+    })
+
+    swingControl.input.addEventListener("input", () => {
+      lab.setSwing(Number(swingControl.input.value) / 100)
+    })
+
+    volumeControl.input.addEventListener("input", () => {
+      lab.setMasterVolume(Number(volumeControl.input.value) / 100)
+    })
+
+    return () => {
+      unsubscribe()
+    }
+  }

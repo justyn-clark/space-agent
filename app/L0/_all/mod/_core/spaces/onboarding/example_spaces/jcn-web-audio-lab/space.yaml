@@ -1,0 +1,32 @@
+created_at: 2026-04-22T00:00:00.000Z
+id: jcn-web-audio-lab
+schema: spaces/v2
+updated_at: 2026-04-22T00:00:00.000Z
+title: JCN Web Audio Lab
+icon: graphic_eq
+icon_color: "#67d9ff"
+agent_instructions: |
+  This space is a browser-native audio prototyping lab for JCN.
+  Treat it as an experimental but real workspace for building interactive Web Audio tools.
+
+  Favor small, reliable improvements over giant rewrites.
+  Preserve shared timing and audio-state scripts when extending the lab.
+  When adding widgets, prefer control surfaces, analyzers, synth modules, sequencing tools, and patch-management tools that work together.
+
+  Keep browser audio work practical.
+  This space is for Web Audio exploration, rapid iteration, and creative tooling, not for pretending the browser is a full DAW or a native plugin host.
+layout_order:
+  - audio-transport
+  - step-sequencer
+  - synth-voice
+  - audio-analyzer
+sizes:
+  audio-transport: 10x4
+  step-sequencer: 14x6
+  synth-voice: 10x5
+  audio-analyzer: 14x5
+positions:
+  audio-transport: 0,0
+  step-sequencer: 10,0
+  synth-voice: 0,4
+  audio-analyzer: 10,6

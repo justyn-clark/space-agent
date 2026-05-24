@@ -1,0 +1,237 @@
+schema: space-widget/v1
+id: audio-analyzer
+name: Audio Analyzer
+cols: 14
+rows: 5
+col: 10
+row: 6
+renderer: |-
+  async (parent, currentSpace, context) => {
+    const lab = await context.import("scripts/audio-lab-engine.js")
+
+    parent.style.cssText = `
+      all: initial;
+      display: block;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #f6fbff;
+    `
+
+    const style = document.createElement("style")
+    style.textContent = `
+      .jcn-audio-analyzer {
+        display: grid;
+        grid-template-rows: auto auto 1fr;
+        gap: 12px;
+        width: 100%;
+        height: 100%;
+      }
+      .jcn-audio-analyzer-top {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .jcn-audio-analyzer-title {
+        display: grid;
+        gap: 4px;
+      }
+      .jcn-audio-analyzer-kicker {
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(135, 224, 255, 0.76);
+      }
+      .jcn-audio-analyzer-heading {
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+      .jcn-audio-analyzer-copy {
+        font-size: 13px;
+        color: rgba(246, 251, 255, 0.72);
+      }
+      .jcn-audio-analyzer-meter-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: center;
+      }
+      .jcn-audio-analyzer-meter {
+        position: relative;
+        height: 14px;
+        border-radius: 999px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .jcn-audio-analyzer-meter-fill {
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 0%;
+        background: linear-gradient(90deg, #64d8ff 0%, #79ffd1 56%, #ffe26d 100%);
+      }
+      .jcn-audio-analyzer-meter-label {
+        min-width: 6ch;
+        text-align: right;
+        font-size: 12px;
+        color: rgba(246, 251, 255, 0.72);
+      }
+      .jcn-audio-analyzer-stage {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        min-height: 150px;
+        border-radius: 18px;
+        overflow: hidden;
+        background: radial-gradient(circle at top, rgba(98, 214, 255, 0.12), transparent 45%), #071321;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .jcn-audio-analyzer-canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .jcn-audio-analyzer-badge {
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.06);
+        color: rgba(246, 251, 255, 0.76);
+        font-size: 12px;
+      }
+    `
+    parent.appendChild(style)
+
+    const root = document.createElement("div")
+    root.className = "jcn-audio-analyzer"
+    parent.appendChild(root)
+
+    const top = document.createElement("div")
+    top.className = "jcn-audio-analyzer-top"
+    top.innerHTML = `
+      <div class="jcn-audio-analyzer-title">
+        <div class="jcn-audio-analyzer-kicker">Monitoring</div>
+        <div class="jcn-audio-analyzer-heading">Audio Analyzer</div>
+      </div>
+    `
+    root.appendChild(top)
+
+    const badge = document.createElement("div")
+    badge.className = "jcn-audio-analyzer-badge"
+    badge.textContent = "Idle"
+    top.appendChild(badge)
+
+    const meterRow = document.createElement("div")
+    meterRow.className = "jcn-audio-analyzer-meter-row"
+    meterRow.innerHTML = `
+      <div class="jcn-audio-analyzer-meter"><div class="jcn-audio-analyzer-meter-fill"></div></div>
+      <div class="jcn-audio-analyzer-meter-label">0%</div>
+    `
+    root.appendChild(meterRow)
+
+    const stage = document.createElement("div")
+    stage.className = "jcn-audio-analyzer-stage"
+    root.appendChild(stage)
+
+    const canvas = document.createElement("canvas")
+    canvas.className = "jcn-audio-analyzer-canvas"
+    stage.appendChild(canvas)
+
+    const meterFill = meterRow.querySelector(".jcn-audio-analyzer-meter-fill")
+    const meterLabel = meterRow.querySelector(".jcn-audio-analyzer-meter-label")
+    const ctx2d = canvas.getContext("2d")
+    let animationFrame = 0
+    let latestSnapshot = lab.read()
+
+    function resizeCanvas() {
+      const rect = stage.getBoundingClientRect()
+      const width = Math.max(200, Math.round(rect.width))
+      const height = Math.max(140, Math.round(rect.height))
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width
+        canvas.height = height
+      }
+    }
+
+    function draw() {
+      resizeCanvas()
+      const width = canvas.width
+      const height = canvas.height
+      const timeData = lab.sampleTimeDomain(256)
+      const frequencyData = lab.sampleFrequency(72)
+      const level = lab.readLevel()
+
+      ctx2d.clearRect(0, 0, width, height)
+      ctx2d.fillStyle = "#071321"
+      ctx2d.fillRect(0, 0, width, height)
+
+      const gradient = ctx2d.createLinearGradient(0, 0, width, height)
+      gradient.addColorStop(0, "rgba(100, 216, 255, 0.28)")
+      gradient.addColorStop(1, "rgba(121, 255, 209, 0.12)")
+      ctx2d.fillStyle = gradient
+      ctx2d.fillRect(0, 0, width, height)
+
+      const waveformMidY = height * 0.33
+      ctx2d.strokeStyle = "rgba(123, 240, 255, 0.95)"
+      ctx2d.lineWidth = 2
+      ctx2d.beginPath()
+
+      if (timeData && timeData.length > 0) {
+        timeData.forEach((value, index) => {
+          const x = (index / Math.max(1, timeData.length - 1)) * width
+          const normalized = (value - 128) / 128
+          const y = waveformMidY + normalized * (height * 0.18)
+          if (index === 0) {
+            ctx2d.moveTo(x, y)
+          } else {
+            ctx2d.lineTo(x, y)
+          }
+        })
+      } else {
+        ctx2d.moveTo(0, waveformMidY)
+        ctx2d.lineTo(width, waveformMidY)
+      }
+      ctx2d.stroke()
+
+      const bars = frequencyData || []
+      const barAreaY = height * 0.58
+      const barAreaHeight = height * 0.3
+      const barWidth = width / Math.max(1, bars.length)
+
+      Array.from(bars).forEach((value, index) => {
+        const normalized = value / 255
+        const barHeight = Math.max(2, normalized * barAreaHeight)
+        const x = index * barWidth + 1
+        const y = barAreaY + (barAreaHeight - barHeight)
+        ctx2d.fillStyle = `hsla(${190 - index * 1.1}, 92%, ${58 + normalized * 14}%, 0.95)`
+        ctx2d.fillRect(x, y, Math.max(2, barWidth - 2), barHeight)
+      })
+
+      meterFill.style.width = `${Math.round(level * 100)}%`
+      meterLabel.textContent = `${Math.round(level * 100)}%`
+      badge.textContent = latestSnapshot.running
+        ? `Running ${latestSnapshot.waveform} at ${latestSnapshot.tempo} BPM`
+        : `Idle ${latestSnapshot.waveform}`
+
+      animationFrame = window.requestAnimationFrame(draw)
+    }
+
+    const unsubscribe = lab.subscribe((snapshot) => {
+      latestSnapshot = snapshot
+    })
+
+    draw()
+
+    const resizeObserver = new ResizeObserver(() => {
+      resizeCanvas()
+    })
+    resizeObserver.observe(stage)
+
+    return () => {
+      unsubscribe()
+      resizeObserver.disconnect()
+      window.cancelAnimationFrame(animationFrame)
+    }
+  }

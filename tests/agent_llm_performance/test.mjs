@@ -115,7 +115,7 @@ async function loadConfig(configPath) {
     _configDir: configDir,
     provider: {
       api_base: parsed.provider?.api_base || "https://openrouter.ai/api/v1/chat/completions",
-      model: parsed.provider?.model || "openai/gpt-5.4-mini",
+      model: parsed.provider?.model || "openai/gpt-5.5-mini",
       api_key_env: parsed.provider?.api_key_env || "OPENROUTER_API_KEY",
       temperature: toNumber(parsed.provider?.temperature, 0.2),
       max_tokens: toInteger(parsed.provider?.max_tokens, 4000),

@@ -1,0 +1,248 @@
+schema: space-widget/v1
+id: synth-voice
+name: Synth Voice
+cols: 10
+rows: 5
+col: 0
+row: 4
+renderer: |-
+  async (parent, currentSpace, context) => {
+    const lab = await context.import("scripts/audio-lab-engine.js")
+
+    parent.style.cssText = `
+      all: initial;
+      display: block;
+      width: 100%;
+      height: 100%;
+      box-sizing: border-box;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #f6fbff;
+    `
+
+    const ROOT_OPTIONS = [36, 40, 43, 48, 52, 55, 60]
+    const WAVEFORMS = ["sine", "triangle", "sawtooth", "square"]
+
+    const style = document.createElement("style")
+    style.textContent = `
+      .jcn-synth-voice {
+        display: grid;
+        grid-template-rows: auto auto 1fr;
+        gap: 14px;
+        width: 100%;
+        height: 100%;
+      }
+      .jcn-synth-voice-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .jcn-synth-voice-title {
+        display: grid;
+        gap: 4px;
+      }
+      .jcn-synth-voice-kicker {
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(141, 230, 255, 0.78);
+      }
+      .jcn-synth-voice-heading {
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+      .jcn-synth-voice-trigger {
+        border: none;
+        border-radius: 14px;
+        padding: 12px 16px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 700;
+        color: #06131f;
+        background: linear-gradient(135deg, #7df2ff 0%, #99ffe2 100%);
+      }
+      .jcn-synth-voice-waveforms {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .jcn-synth-voice-waveform {
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        padding: 10px 12px;
+        background: rgba(255, 255, 255, 0.04);
+        color: rgba(246, 251, 255, 0.88);
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: capitalize;
+      }
+      .jcn-synth-voice-waveform.is-selected {
+        color: #06131f;
+        background: linear-gradient(135deg, rgba(125, 242, 255, 0.95), rgba(153, 255, 226, 0.95));
+      }
+      .jcn-synth-voice-controls {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .jcn-synth-voice-control {
+        display: grid;
+        gap: 8px;
+        padding: 12px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.045);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      .jcn-synth-voice-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: rgba(246, 251, 255, 0.62);
+      }
+      .jcn-synth-voice-value {
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .jcn-synth-voice-range {
+        width: 100%;
+        accent-color: #79eff0;
+      }
+      .jcn-synth-voice-select {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(3, 10, 18, 0.7);
+        color: #f6fbff;
+        box-sizing: border-box;
+      }
+    `
+    parent.appendChild(style)
+
+    const root = document.createElement("div")
+    root.className = "jcn-synth-voice"
+    parent.appendChild(root)
+
+    const top = document.createElement("div")
+    top.className = "jcn-synth-voice-top"
+    top.innerHTML = `
+      <div class="jcn-synth-voice-title">
+        <div class="jcn-synth-voice-kicker">Sound shaping</div>
+        <div class="jcn-synth-voice-heading">Synth Voice</div>
+      </div>
+    `
+    root.appendChild(top)
+
+    const triggerButton = document.createElement("button")
+    triggerButton.className = "jcn-synth-voice-trigger"
+    triggerButton.textContent = "Audition voice"
+    top.appendChild(triggerButton)
+
+    const waveformRow = document.createElement("div")
+    waveformRow.className = "jcn-synth-voice-waveforms"
+    root.appendChild(waveformRow)
+
+    const waveformButtons = WAVEFORMS.map((waveform) => {
+      const button = document.createElement("button")
+      button.className = "jcn-synth-voice-waveform"
+      button.type = "button"
+      button.textContent = waveform
+      button.addEventListener("click", () => {
+        lab.setWaveform(waveform)
+      })
+      waveformRow.appendChild(button)
+      return { button, waveform }
+    })
+
+    const controls = document.createElement("div")
+    controls.className = "jcn-synth-voice-controls"
+    root.appendChild(controls)
+
+    const rootControl = document.createElement("label")
+    rootControl.className = "jcn-synth-voice-control"
+    rootControl.innerHTML = `
+      <div class="jcn-synth-voice-label">Root note</div>
+      <div class="jcn-synth-voice-value">C3</div>
+    `
+    const rootSelect = document.createElement("select")
+    rootSelect.className = "jcn-synth-voice-select"
+    ROOT_OPTIONS.forEach((value) => {
+      const option = document.createElement("option")
+      option.value = String(value)
+      option.textContent = lab.formatMidiNote(value)
+      rootSelect.appendChild(option)
+    })
+    rootControl.appendChild(rootSelect)
+    controls.appendChild(rootControl)
+
+    const cutoffControl = document.createElement("label")
+    cutoffControl.className = "jcn-synth-voice-control"
+    cutoffControl.innerHTML = `
+      <div class="jcn-synth-voice-label">Filter cutoff</div>
+      <div class="jcn-synth-voice-value">1800 Hz</div>
+    `
+    const cutoffRange = document.createElement("input")
+    cutoffRange.className = "jcn-synth-voice-range"
+    cutoffRange.type = "range"
+    cutoffRange.min = "120"
+    cutoffRange.max = "12000"
+    cutoffRange.step = "10"
+    cutoffControl.appendChild(cutoffRange)
+    controls.appendChild(cutoffControl)
+
+    const lengthControl = document.createElement("label")
+    lengthControl.className = "jcn-synth-voice-control"
+    lengthControl.innerHTML = `
+      <div class="jcn-synth-voice-label">Note length</div>
+      <div class="jcn-synth-voice-value">0.20 s</div>
+    `
+    const lengthRange = document.createElement("input")
+    lengthRange.className = "jcn-synth-voice-range"
+    lengthRange.type = "range"
+    lengthRange.min = "5"
+    lengthRange.max = "90"
+    lengthRange.step = "1"
+    lengthControl.appendChild(lengthRange)
+    controls.appendChild(lengthControl)
+
+    const rootValue = rootControl.querySelector(".jcn-synth-voice-value")
+    const cutoffValue = cutoffControl.querySelector(".jcn-synth-voice-value")
+    const lengthValue = lengthControl.querySelector(".jcn-synth-voice-value")
+
+    function render(snapshot) {
+      rootValue.textContent = snapshot.rootNoteLabel
+      cutoffValue.textContent = `${snapshot.filterCutoff} Hz`
+      lengthValue.textContent = `${snapshot.noteLength.toFixed(2)} s`
+      rootSelect.value = String(snapshot.rootMidi)
+      cutoffRange.value = String(snapshot.filterCutoff)
+      lengthRange.value = String(Math.round(snapshot.noteLength * 100))
+
+      waveformButtons.forEach((entry) => {
+        entry.button.classList.toggle("is-selected", snapshot.waveform === entry.waveform)
+      })
+    }
+
+    const unsubscribe = lab.subscribe(render)
+
+    triggerButton.addEventListener("click", () => {
+      void lab.triggerPreview(0, 1.1)
+    })
+
+    rootSelect.addEventListener("change", () => {
+      lab.setRootMidi(Number(rootSelect.value))
+    })
+
+    cutoffRange.addEventListener("input", () => {
+      lab.setFilterCutoff(Number(cutoffRange.value))
+    })
+
+    lengthRange.addEventListener("input", () => {
+      lab.setNoteLength(Number(lengthRange.value) / 100)
+    })
+
+    return () => {
+      unsubscribe()
+    }
+  }

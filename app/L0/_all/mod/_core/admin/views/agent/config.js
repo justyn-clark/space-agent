@@ -19,7 +19,7 @@ export const DEFAULT_ADMIN_CHAT_SETTINGS = {
   huggingfaceModel: "",
   localProvider: ADMIN_CHAT_LOCAL_PROVIDER.HUGGINGFACE,
   maxTokens: DEFAULT_ADMIN_CHAT_MAX_TOKENS,
-  model: "openai/gpt-5.4-mini",
+  model: "openai/gpt-5.5-mini",
   paramsText: "temperature:0.2",
   promptBudgetRatios: { ...DEFAULT_PROMPT_BUDGET_RATIOS },
   provider: ADMIN_CHAT_LLM_PROVIDER.API

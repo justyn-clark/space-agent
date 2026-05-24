@@ -52,7 +52,7 @@ This scope owns:
   - `--models <id1,id2,...>` runs the same prompt or matrix across multiple models for comparison
   - `run.model_concurrency` and `--model-concurrency <n>` control parallelism across models
 - the harness must load `OPENROUTER_API_KEY` from process env or the repo root `.env`
-- the harness must call OpenRouter with `openai/gpt-5.4-mini` by default from `config.yaml`
+- the harness must call OpenRouter with `openai/gpt-5.5-mini` by default from `config.yaml`
 - the harness temperature must stay explicit in `config.yaml`; current evaluations run at `0.2`
 - the harness retry policy must stay explicit in `config.yaml`; current parallel runs use request retries with backoff instead of aborting the whole matrix on the first transport miss
 - the harness must not execute assistant `_____javascript`; it only evaluates assistant outputs against case criteria
