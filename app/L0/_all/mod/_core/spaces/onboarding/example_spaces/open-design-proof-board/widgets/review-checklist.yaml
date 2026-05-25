@@ -1,0 +1,19 @@
+schema: space-widget/v1
+id: review-checklist
+name: Review Checklist
+cols: 12
+rows: 7
+col: 12
+row: 5
+renderer: |-
+  async (parent) => {
+    parent.style.cssText = "all:initial;display:block;width:100%;height:100%;box-sizing:border-box;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#fff;"
+    const checks = ["Audience is named", "Claim is bounded", "Evidence is attached", "Next ask is obvious", "Mobile layout works", "Receipt path exists"]
+    const style = document.createElement("style")
+    style.textContent = `.od-review{height:100%;box-sizing:border-box;border-radius:20px;padding:18px;background:#11140d;border:1px solid rgba(126,231,135,.22);display:grid;grid-template-rows:auto 1fr;gap:12px}.od-review h3{margin:0;font-size:22px}.od-review .checks{display:grid;gap:9px}.od-review label{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.075);font-size:13px;color:rgba(255,255,255,.78)}.od-review input{accent-color:#7ee787;width:16px;height:16px}`
+    parent.appendChild(style)
+    const root = document.createElement("section")
+    root.className = "od-review"
+    root.innerHTML = `<h3>Review Checklist</h3><div class="checks">${checks.map((check, index) => `<label><input type="checkbox" ${index < 2 ? "checked" : ""}>${check}</label>`).join("")}</div>`
+    parent.appendChild(root)
+  }

@@ -1,0 +1,27 @@
+created_at: 2026-05-25T00:00:00.000Z
+id: open-design-proof-board
+schema: spaces/v2
+updated_at: 2026-05-25T00:00:00.000Z
+title: Open Design Proof Board
+icon: approval_delegation
+icon_color: "#9fb7ff"
+agent_instructions: |
+  This space turns JCN/Open Design work into buyer-facing proof boards.
+  Focus on claims, evidence, artifacts, screenshots, and the exact audience each board should persuade.
+
+  Do not overstate. Every claim should have a receipt, a visible artifact, or a clear next proof step.
+layout_order:
+  - board-hero
+  - claim-boundary
+  - artifact-pipeline
+  - review-checklist
+sizes:
+  board-hero: 14x5
+  claim-boundary: 10x5
+  artifact-pipeline: 12x7
+  review-checklist: 12x7
+positions:
+  board-hero: 0,0
+  claim-boundary: 14,0
+  artifact-pipeline: 0,5
+  review-checklist: 12,5

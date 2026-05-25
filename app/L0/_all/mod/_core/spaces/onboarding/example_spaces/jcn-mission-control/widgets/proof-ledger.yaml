@@ -1,0 +1,32 @@
+schema: space-widget/v1
+id: proof-ledger
+name: Proof Ledger
+cols: 12
+rows: 6
+col: 0
+row: 5
+renderer: |-
+  async (parent) => {
+    parent.style.cssText = "all:initial;display:block;width:100%;height:100%;box-sizing:border-box;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#f9fafb;"
+    const rows = [
+      ["Repo state", "Clean branch, clear remotes, small commits"],
+      ["Runtime", "Local server URL and launch command captured"],
+      ["Artifact", "Screenshots, previews, or exported space ZIP"],
+      ["Verification", "HTTP smoke, browser check, or user-confirmed behavior"]
+    ]
+    const style = document.createElement("style")
+    style.textContent = `
+      .jcn-proof{height:100%;box-sizing:border-box;border-radius:20px;padding:18px;background:linear-gradient(180deg,#17120b,#0c1116);border:1px solid rgba(255,184,107,.24);display:grid;grid-template-rows:auto 1fr;gap:14px}
+      .jcn-proof h3{margin:0;font-size:22px;letter-spacing:0}
+      .jcn-proof table{width:100%;border-collapse:separate;border-spacing:0 8px;font-size:13px}
+      .jcn-proof th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:rgba(249,250,251,.55);font-weight:650}
+      .jcn-proof td{padding:10px 12px;background:rgba(255,255,255,.055);border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07)}
+      .jcn-proof td:first-child{border-left:1px solid rgba(255,255,255,.07);border-radius:12px 0 0 12px;font-weight:760;color:#fff}
+      .jcn-proof td:last-child{border-right:1px solid rgba(255,255,255,.07);border-radius:0 12px 12px 0;color:rgba(249,250,251,.72)}
+    `
+    parent.appendChild(style)
+    const root = document.createElement("section")
+    root.className = "jcn-proof"
+    root.innerHTML = `<h3>Proof Ledger</h3><table><thead><tr><th>Receipt</th><th>What good looks like</th></tr></thead><tbody>${rows.map(([a,b]) => `<tr><td>${a}</td><td>${b}</td></tr>`).join("")}</tbody></table>`
+    parent.appendChild(root)
+  }

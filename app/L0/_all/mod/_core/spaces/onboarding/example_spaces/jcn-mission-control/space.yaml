@@ -1,0 +1,28 @@
+created_at: 2026-05-25T00:00:00.000Z
+id: jcn-mission-control
+schema: spaces/v2
+updated_at: 2026-05-25T00:00:00.000Z
+title: JCN Mission Control
+icon: space_dashboard
+icon_color: "#7ee787"
+agent_instructions: |
+  This is the local operator space for JCN.
+  Treat it as a command surface for project focus, proof receipts, system posture, and next useful moves.
+
+  Keep recommendations concrete.
+  Prefer receipts, repo paths, running URLs, and exact next actions over generic strategy.
+layout_order:
+  - command-deck
+  - project-radar
+  - proof-ledger
+  - next-actions
+sizes:
+  command-deck: 14x5
+  project-radar: 10x7
+  proof-ledger: 12x6
+  next-actions: 12x5
+positions:
+  command-deck: 0,0
+  project-radar: 14,0
+  proof-ledger: 0,5
+  next-actions: 12,7

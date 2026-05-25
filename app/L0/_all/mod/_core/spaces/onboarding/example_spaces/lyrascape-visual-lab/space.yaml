@@ -1,0 +1,27 @@
+created_at: 2026-05-25T00:00:00.000Z
+id: lyrascape-visual-lab
+schema: spaces/v2
+updated_at: 2026-05-25T00:00:00.000Z
+title: Lyrascape Visual Lab
+icon: animated_images
+icon_color: "#ffb86b"
+agent_instructions: |
+  This space explores Lyrascape visual direction for JustBeatz Music.
+  Keep the visuals connected to track metadata, playback state, motion language, and reusable canvas/runtime ideas.
+
+  Avoid generic music-app chrome. Favor distinctive, inspectable visual systems that can become product primitives.
+layout_order:
+  - stage-canvas
+  - motion-system
+  - track-context
+  - build-queue
+sizes:
+  stage-canvas: 15x8
+  motion-system: 9x8
+  track-context: 12x5
+  build-queue: 12x5
+positions:
+  stage-canvas: 0,0
+  motion-system: 15,0
+  track-context: 0,8
+  build-queue: 12,8

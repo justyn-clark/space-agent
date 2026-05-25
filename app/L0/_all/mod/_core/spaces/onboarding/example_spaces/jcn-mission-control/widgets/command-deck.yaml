@@ -1,0 +1,40 @@
+schema: space-widget/v1
+id: command-deck
+name: Command Deck
+cols: 14
+rows: 5
+col: 0
+row: 0
+renderer: |-
+  async (parent) => {
+    parent.style.cssText = "all:initial;display:block;width:100%;height:100%;box-sizing:border-box;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#f7fff8;"
+    const style = document.createElement("style")
+    style.textContent = `
+      .jcn-command{height:100%;box-sizing:border-box;border-radius:20px;padding:20px;display:grid;grid-template-rows:auto 1fr;gap:18px;background:linear-gradient(135deg,#07110b 0%,#111827 52%,#26180b 100%);border:1px solid rgba(126,231,135,.26);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 22px 60px rgba(0,0,0,.28);overflow:hidden}
+      .jcn-command header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+      .jcn-command h2{margin:0;font-size:30px;line-height:1;font-weight:780;letter-spacing:0}
+      .jcn-command .kicker{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:#7ee787;margin-bottom:8px}
+      .jcn-command .status{padding:8px 12px;border-radius:999px;background:rgba(126,231,135,.12);border:1px solid rgba(126,231,135,.22);font-size:12px;color:#d8ffe0;white-space:nowrap}
+      .jcn-command .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;min-height:0}
+      .jcn-command .tile{border-radius:16px;padding:14px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.09);display:grid;align-content:space-between;min-width:0}
+      .jcn-command .label{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:rgba(247,255,248,.62)}
+      .jcn-command .value{font-size:20px;font-weight:760;margin-top:10px;color:#fff}
+      .jcn-command .note{font-size:12px;line-height:1.4;color:rgba(247,255,248,.72);margin-top:8px}
+    `
+    parent.appendChild(style)
+    const root = document.createElement("section")
+    root.className = "jcn-command"
+    root.innerHTML = `
+      <header>
+        <div><div class="kicker">JCN Operator Surface</div><h2>Mission Control</h2></div>
+        <div class="status">Local-first / receipt-driven</div>
+      </header>
+      <div class="grid">
+        <div class="tile"><div><div class="label">Priority</div><div class="value">Build usable proof</div></div><div class="note">Turn live systems into receipts, demos, and repeatable workflows.</div></div>
+        <div class="tile"><div><div class="label">Active lane</div><div class="value">Space Agent</div></div><div class="note">Browser-native canvases for JCN operations and creative tools.</div></div>
+        <div class="tile"><div><div class="label">Rule</div><div class="value">Docs drift is a bug</div></div><div class="note">Behavior changes should land with local docs or receipts.</div></div>
+        <div class="tile"><div><div class="label">Posture</div><div class="value">Fork tracks upstream</div></div><div class="note">JCN experiments live on top of upstream Space Agent.</div></div>
+      </div>
+    `
+    parent.appendChild(root)
+  }
