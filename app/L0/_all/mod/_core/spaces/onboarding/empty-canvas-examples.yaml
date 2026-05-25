@@ -31,6 +31,25 @@ examples:
       await helpers.getSpacesRuntime().installExampleSpace({
         sourcePath: "L0/_all/mod/_core/spaces/onboarding/example_spaces/open-design-proof-board/"
       })
+  - text: JCN Local LLM Studio
+    kind: widget
+    icon: neurology
+    color: "#67d9ff"
+    code: |
+      await helpers.getSpacesRuntime().installExampleSpace({
+        sourcePath: "L0/_all/mod/_core/spaces/onboarding/example_spaces/jcn-local-llm-studio/"
+      })
+  - text: Build a JCN space
+    prompt: >
+      Use the current Space Agent canvas as a JCN production workspace. First
+      inspect the current space and available widgets. Then propose one focused
+      space concept with four widgets, build the first visible widget, and stop
+      after recording what changed and how to verify it.
+    kind: chat
+    icon: chat_bubble
+    color: "#7ee787"
+    code: |
+      await helpers.submitPrompt(example.prompt)
   - text: Create a weather report
     prompt: Create a weather report. Use https://ipapi.co/json/ to get an approximate location. Do not use exact browser geolocation. Fetch weather from https://api.met.no/weatherapi/locationforecast/2.0/compact. Use the `pdf-report` skill to create and download a browser PDF report with structure and styling chosen for this report instead of a canned template, then reply with a brief weather summary.
     kind: chat

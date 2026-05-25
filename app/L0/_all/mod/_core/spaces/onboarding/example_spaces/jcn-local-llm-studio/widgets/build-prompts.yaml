@@ -1,0 +1,31 @@
+schema: space-widget/v1
+id: build-prompts
+name: Build Prompts
+cols: 12
+rows: 7
+col: 12
+row: 0
+renderer: |-
+  async (parent) => {
+    parent.style.cssText = "all:initial;display:block;width:100%;height:100%;box-sizing:border-box;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#f8fbff;"
+    const prompts = [
+      ["Make it useful", "Turn this space into a working JCN command board with one live status widget and one receipt widget."],
+      ["Make it visual", "Create a polished visual widget for the current JCN idea with readable mobile-first layout and no decorative filler."],
+      ["Make it provable", "Add a proof checklist that records what changed, where it lives, and how to verify it."],
+      ["Make it reusable", "Extract the pattern into a starter space template with plain instructions for the next project."]
+    ]
+    const style = document.createElement("style")
+    style.textContent = `
+      .jcn-prompts{height:100%;box-sizing:border-box;border-radius:20px;padding:18px;background:#0b1018;border:1px solid rgba(159,183,255,.24);display:grid;grid-template-rows:auto 1fr;gap:14px;overflow:hidden}
+      .jcn-prompts h3{margin:0;font-size:22px;letter-spacing:0;color:#fff}
+      .jcn-prompts .list{display:grid;gap:10px;min-height:0;overflow:auto}
+      .jcn-prompts .item{padding:12px;border-radius:14px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08)}
+      .jcn-prompts .title{font-size:14px;font-weight:780;color:#fff}
+      .jcn-prompts .copy{margin-top:6px;font-size:12px;line-height:1.4;color:rgba(248,251,255,.68)}
+    `
+    parent.appendChild(style)
+    const root = document.createElement("section")
+    root.className = "jcn-prompts"
+    root.innerHTML = `<h3>Build Prompts</h3><div class="list">${prompts.map(([title, copy]) => `<div class="item"><div class="title">${title}</div><div class="copy">${copy}</div></div>`).join("")}</div>`
+    parent.appendChild(root)
+  }

@@ -1,0 +1,32 @@
+schema: space-widget/v1
+id: space-factory
+name: Space Factory
+cols: 12
+rows: 7
+col: 0
+row: 5
+renderer: |-
+  async (parent) => {
+    parent.style.cssText = "all:initial;display:block;width:100%;height:100%;box-sizing:border-box;font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#fffaf3;"
+    const lanes = [
+      ["01", "Capture", "Name the project, audience, live data, and one proof target."],
+      ["02", "Compose", "Sketch four widgets: context, work queue, canvas, receipt."],
+      ["03", "Build", "Generate one visible widget before expanding the space."],
+      ["04", "Verify", "Run the smallest smoke check and record the result."]
+    ]
+    const style = document.createElement("style")
+    style.textContent = `
+      .jcn-factory{height:100%;box-sizing:border-box;border-radius:20px;padding:18px;background:linear-gradient(180deg,#17120b,#0d1117);border:1px solid rgba(255,184,107,.26);display:grid;grid-template-rows:auto 1fr;gap:14px;overflow:hidden}
+      .jcn-factory h3{margin:0;font-size:22px;letter-spacing:0}
+      .jcn-factory .lanes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;min-height:0}
+      .jcn-factory .lane{border-radius:16px;padding:14px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08);display:grid;grid-template-rows:auto auto 1fr;gap:7px;min-width:0}
+      .jcn-factory .num{font-size:12px;color:#ffb86b;font-weight:800}
+      .jcn-factory .name{font-size:18px;font-weight:790;color:#fff}
+      .jcn-factory .desc{font-size:12px;line-height:1.42;color:rgba(255,250,243,.7)}
+    `
+    parent.appendChild(style)
+    const root = document.createElement("section")
+    root.className = "jcn-factory"
+    root.innerHTML = `<h3>Space Factory</h3><div class="lanes">${lanes.map(([num, name, desc]) => `<div class="lane"><div class="num">${num}</div><div class="name">${name}</div><div class="desc">${desc}</div></div>`).join("")}</div>`
+    parent.appendChild(root)
+  }

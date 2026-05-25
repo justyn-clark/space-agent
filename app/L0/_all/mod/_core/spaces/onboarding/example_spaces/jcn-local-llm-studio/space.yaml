@@ -1,0 +1,28 @@
+created_at: 2026-05-25T00:00:00.000Z
+id: jcn-local-llm-studio
+schema: spaces/v2
+updated_at: 2026-05-25T00:00:00.000Z
+title: JCN Local LLM Studio
+icon: neurology
+icon_color: "#67d9ff"
+agent_instructions: |
+  This space is the local model workbench for JCN.
+  Treat the Mac Studio LM Studio endpoint as the active model source.
+
+  Help turn rough creative and operating ideas into visible widgets, receipts, and next-step plans.
+  Prefer small shippable changes, clear proof checks, and concrete repo or runtime paths.
+layout_order:
+  - model-link
+  - build-prompts
+  - space-factory
+  - proof-loop
+sizes:
+  model-link: 12x5
+  build-prompts: 12x7
+  space-factory: 12x7
+  proof-loop: 12x5
+positions:
+  model-link: 0,0
+  build-prompts: 12,0
+  space-factory: 0,5
+  proof-loop: 12,7
