@@ -140,6 +140,12 @@ Space Agent is developed by AI agents, including its documentation.
 
 The framework keeps a hierarchical `AGENTS.md` instruction system, plus skills and focused docs, so agents can understand ownership, architecture, workflows, and local implementation rules while they build and maintain the system autonomously.
 
+Current JCN fork note, May 28, 2026: this branch adds JCN starter spaces,
+including the web audio lab and local LLM studio space. Those additions live in
+the same modular space system described above: they should remain removable,
+layered, and documented through the normal `AGENTS.md` and focused-doc pattern
+rather than becoming special-case core behavior.
+
 DeepWiki covers the human-readable side of that same knowledge base. Together, this keeps the codebase and its documentation prepared for autonomous agent work, and helps the documentation keep up with the pace of AI-driven development instead of falling behind.
 
 If you want the deep tour, start here:
