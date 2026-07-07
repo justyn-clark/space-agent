@@ -11,6 +11,7 @@ This doc covers the spaces runtime because it is one of the most important agent
 - `app/L0/_all/mod/_core/spaces/onboarding/empty-canvas-examples.js`
 - `app/L0/_all/mod/_core/spaces/onboarding/empty-canvas-example-helpers.js`
 - `app/L0/_all/mod/_core/spaces/onboarding/examples/`
+- `app/L0/_all/mod/_core/spaces/onboarding/example_spaces/`
 - `app/L0/_all/mod/_core/spaces/onboarding/first-login-onboarding.js`
 - `app/L0/_all/mod/_core/spaces/ext/skills/spaces/SKILL.md`
 - `app/L0/_all/mod/_core/spaces/ext/skills/space-widgets/SKILL.md`
@@ -165,6 +166,7 @@ Rules:
 - make the copy block itself clickable so users can skip the staged sequence and jump directly to the fully revealed final state
 - each YAML example body runs as ordinary async JavaScript inside a tiny ES module that imports `_core/spaces/onboarding/empty-canvas-example-helpers.js` as `helpers`, so example code can use normal browser-side JavaScript plus that helper module instead of a runtime-injected helper object
 - prompt-style example actions should call `helpers.submitPrompt(...)`, using `example.prompt` when the sent chat text should differ from the visible label; that helper routes into `space.onscreenAgent.submitExamplePrompt(...)` so default API-key blockers surface `Don't forget to configure your LLM first.` and active streaming or execution surfaces `I'm working on something...` through the overlay bubble instead of silently queueing
+- curated full-space examples live under `_core/spaces/onboarding/example_spaces/` and install through `helpers.getSpacesRuntime().installExampleSpace(...)`; `JCN Command Center` is the current 12-widget operations cockpit template and keeps its shared widget implementation in `jcn-command-center/scripts/command-center.js`
 - those onboarding YAML entries should also declare `kind`, and the empty-canvas renderer should use the global Alpine `onscreenAgent` store getters to fade only the `kind: chat` buttons while the overlay is inactive, without making them unclickable
 - on the default three-column empty-space layout, keep the three `kind: chat` examples in positions `1`, `5`, and `9` so the chat launchers sit on the grid diagonal; responsive narrower layouts may simply reflow that same source order
 - when one of those `kind: chat` buttons is clicked while the overlay store still reports an inactive state, the empty-canvas click handler should short-circuit before the YAML body runs and call `showExamplePromptInactiveBubble()` on the same global store so the blocker bubble still appears

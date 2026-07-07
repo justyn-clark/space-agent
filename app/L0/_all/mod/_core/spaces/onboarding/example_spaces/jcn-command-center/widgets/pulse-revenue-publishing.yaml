@@ -1,0 +1,16 @@
+schema: space-widget/v1
+id: pulse-revenue-publishing
+name: Pulse Revenue Publishing
+cols: 8
+rows: 6
+col: 8
+row: 6
+metadata:
+  example: true
+  suite: jcn-command-center
+  purpose: "JCN Pulse, ORE, crawl, transcript, and publishing cockpit."
+renderer: |-
+  async (parent, currentSpace, context) => {
+    const center = await context.import("scripts/command-center.js")
+    return center.render(parent, currentSpace, context, "pulse-revenue-publishing")
+  }

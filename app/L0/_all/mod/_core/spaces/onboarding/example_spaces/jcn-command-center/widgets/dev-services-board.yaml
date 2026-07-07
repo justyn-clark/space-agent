@@ -1,0 +1,16 @@
+schema: space-widget/v1
+id: dev-services-board
+name: Dev Services Board
+cols: 8
+rows: 6
+col: 16
+row: 0
+metadata:
+  example: true
+  suite: jcn-command-center
+  purpose: "Local service, port, daemon, and workspace launcher board."
+renderer: |-
+  async (parent, currentSpace, context) => {
+    const center = await context.import("scripts/command-center.js")
+    return center.render(parent, currentSpace, context, "dev-services-board")
+  }

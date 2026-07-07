@@ -1,0 +1,16 @@
+schema: space-widget/v1
+id: creative-pipeline-monitor
+name: Creative Pipeline Monitor
+cols: 8
+rows: 6
+col: 16
+row: 18
+metadata:
+  example: true
+  suite: jcn-command-center
+  purpose: "Creative, animation, Lyrascape, and game stage-gate monitor."
+renderer: |-
+  async (parent, currentSpace, context) => {
+    const center = await context.import("scripts/command-center.js")
+    return center.render(parent, currentSpace, context, "creative-pipeline-monitor")
+  }

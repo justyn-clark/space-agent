@@ -1,0 +1,16 @@
+schema: space-widget/v1
+id: music-ops-board
+name: Music Ops Board
+cols: 8
+rows: 6
+col: 0
+row: 12
+metadata:
+  example: true
+  suite: jcn-command-center
+  purpose: "JBM ingestion, streaming, waveform, and release operations."
+renderer: |-
+  async (parent, currentSpace, context) => {
+    const center = await context.import("scripts/command-center.js")
+    return center.render(parent, currentSpace, context, "music-ops-board")
+  }
