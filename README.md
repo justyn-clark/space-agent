@@ -138,7 +138,7 @@ Run `node space help` to see the full command surface and built-in help for each
 
 Space Agent is developed by AI agents, including its documentation.
 
-The framework keeps a hierarchical `AGENTS.md` instruction system, plus skills and focused docs, so agents can understand ownership, architecture, workflows, and local implementation rules while they build and maintain the system autonomously.
+The framework keeps a DOX `AGENTS.md` hierarchy, plus skills and focused docs, so agents can understand ownership, architecture, workflows, and local implementation rules while they build and maintain the system autonomously.
 
 Current JCN fork note, May 28, 2026: this branch adds JCN starter spaces,
 including the web audio lab and local LLM studio space. Those additions live in
