@@ -1,0 +1,16 @@
+schema: space-widget/v1
+id: reaper-control
+name: REAPER Control
+cols: 8
+rows: 6
+col: 8
+row: 18
+metadata:
+  example: true
+  suite: jcn-command-center
+  purpose: "REAPER Studio search, dry-run, apply, and verify planning."
+renderer: |-
+  async (parent, currentSpace, context) => {
+    const center = await context.import("scripts/command-center.js")
+    return center.render(parent, currentSpace, context, "reaper-control")
+  }
