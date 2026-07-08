@@ -1,0 +1,16 @@
+schema: space-widget/v1
+id: soundkit-intent-pad
+name: SoundKit Intent Pad
+cols: 8
+rows: 6
+col: 8
+row: 12
+metadata:
+  example: true
+  suite: jcn-command-center
+  purpose: "Browser-native Web Audio intent auditioning and sound-map design."
+renderer: |-
+  async (parent, currentSpace, context) => {
+    const center = await context.import("scripts/command-center.js")
+    return center.render(parent, currentSpace, context, "soundkit-intent-pad")
+  }

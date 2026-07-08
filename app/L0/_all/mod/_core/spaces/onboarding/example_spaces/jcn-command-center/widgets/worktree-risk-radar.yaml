@@ -1,0 +1,16 @@
+schema: space-widget/v1
+id: worktree-risk-radar
+name: Worktree Risk Radar
+cols: 8
+rows: 6
+col: 8
+row: 0
+metadata:
+  example: true
+  suite: jcn-command-center
+  purpose: "Pre-push and drift review cockpit for local repos."
+renderer: |-
+  async (parent, currentSpace, context) => {
+    const center = await context.import("scripts/command-center.js")
+    return center.render(parent, currentSpace, context, "worktree-risk-radar")
+  }

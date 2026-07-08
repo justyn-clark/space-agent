@@ -1,153 +1,140 @@
-<p align="center">
-  <a href="https://space-agent.ai"><img src="./.github/readme-banner-thin.svg" alt="Space Agent banner" /></a>
-</p>
+# JCN Space Agent
 
-<p align="center">
-<br>
-  <a href="https://space-agent.ai"><img alt="Try Live Now!" src="./.github/readme-try-live-now.svg" /></a>
-  <br />
-  <br />
-  <a href="https://github.com/agent0ai/space-agent/releases/latest"><img alt="Run local App" height="50" src="https://img.shields.io/badge/Run%20local%20App-59F0A8?style=for-the-badge&labelColor=07111F&color=59F0A8" /></a>
-  <a href="#host"><img alt="Host yourself" height="50" src="https://img.shields.io/badge/Host%20yourself-FFFFFF?style=for-the-badge&labelColor=07111F&color=FFFFFF" /></a>
-</p>
+Justyn Clark's browser-first AI workspace runtime.
 
-<h3 align="center">Created by <a href="https://agent-zero.ai">Agent Zero</a>.</h3>
+This repository is now the JCN-owned Space Agent source tree. It keeps the useful browser-first runtime architecture, but the public docs, package metadata, and local setup guidance are no longer written as an upstream Agent Zero distribution. Treat this checkout as the place where my agent workspace, tools, widgets, music workflows, and local operating surfaces evolve.
 
-<p align="center">
-  <a href="https://discord.gg/B8KZKNsPpj"><img alt="Discord" src="https://img.shields.io/badge/Discord-5865F2?style=flat&logo=discord&logoColor=white" /></a>
-  &nbsp;
-  <a href="https://x.com/Agent0ai"><img alt="X" src="https://img.shields.io/badge/X-000000?style=flat&logo=x&logoColor=white" /></a>
-  &nbsp;
-  <a href="https://www.youtube.com/@AgentZeroFW"><img alt="YouTube" src="https://img.shields.io/badge/YouTube-FF0000?style=flat&logo=youtube&logoColor=white" /></a>
-  &nbsp;
-  <a href="https://deepwiki.com/agent0ai/space-agent"><img alt="Ask DeepWiki" src="https://deepwiki.com/badge.svg" /></a>
-</p>
+## Run Locally
 
-<p align="center">
-  <a href="https://www.youtube.com/watch?v=CNRHxEZ8yqs"><img src="./.github/thumbnail.webp" alt="Watch Space Agent on YouTube" width="560" /></a>
-</p>
+Use this path when you just want the app running on this machine without creating users or passwords.
 
-## Why Space Agent Is Different
+Requirements:
 
-<table width="100%" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <td valign="top" width="50%">
-      <strong>The agent reshapes the interface</strong><br />
-      Ask for a page, tool, widget, or workflow and the agent can build it straight into the running workspace while you work.
-    </td>
-    <td valign="top" width="50%">
-      <strong>Endless possibilities</strong><br />
-      The agent is not trapped inside a fixed product surface. It can develop the capabilities it needs from within the system itself and keep extending the Space toward whatever the user can imagine.
-    </td>
-  </tr>
-  <tr>
-    <td align="center" valign="top" width="50%">
-      <img src="packaging/resources/icons/source/space-agent-icon-256.webp" alt="Space Agent app icon" width="120" />
-    </td>
-    <td valign="top" width="50%">
-      <strong>The agent lives in the frontend runtime</strong><br />
-      Space Agent runs in the browser layer itself, whether you open it in a tab or through the desktop app, so the agent can work directly with the same framework, modules, spaces, and UI it is reshaping.
-    </td>
-  </tr>
-  <tr>
-    <td valign="top" width="50%">
-      <strong>Text-based agent</strong><br />
-      New capabilities can live in simple <code>SKILL.md</code> files that the agent can write and extend itself in plain text.
-    </td>
-    <td valign="top" width="50%">
-      <strong>Token-efficient execution</strong><br />
-      No bulky tool-call JSON. When action is needed, the agent can stay in plain text and plain JavaScript inside the same message.
-    </td>
-  </tr>
-  <tr>
-    <td valign="top" width="50%">
-      <strong>Puzzle-piece modularity</strong><br />
-      The core stays small. Most of Space Agent is made of modular pieces that can be added, removed, or swapped cleanly instead of being welded into one rigid app.
-    </td>
-    <td align="center" valign="top" width="50%">
-      <img src="app/L0/_all/mod/_core/visual/res/chat/admin/helmet_no_bg_256.webp" alt="Space Agent helmet" height="112" />
-    </td>
-  </tr>
-  <tr>
-    <td valign="top" width="50%">
-      <strong>Personal to hierarchical</strong><br />
-      Use Space Agent as a completely personal assistant, or organize it into a hierarchical system of users and groups as the scope grows.
-    </td>
-    <td valign="top" width="50%">
-      <strong>Per-user work, group sharing</strong><br />
-      Users can build in their own layer without affecting anyone else, then groups can share tools, workflows, and behavior across teams when they are ready.
-    </td>
-  </tr>
-  <tr>
-    <td align="center" valign="top" width="50%">
-      <img src="app/L0/_all/mod/_core/visual/res/engineer/astronaut_red_512h.webp" alt="Space Agent astronaut" height="148" />
-    </td>
-    <td valign="top" width="50%">
-      <strong>Persistent admin and time travel</strong><br />
-      When something breaks, admin mode gives you a stable control plane, and Git-backed history lets you roll back user or group changes without taking everyone down with you.
-    </td>
-  </tr>
-</table>
-
-## Try it in 30 seconds
-
-# [space-agent.ai](https://space-agent.ai)
-
-Try our demo server with guest account.
-
-## Run it yourself
-
-### The desktop app
-
-Grab the latest build from [GitHub Releases](https://github.com/agent0ai/space-agent/releases/latest). It runs everything as one app. No terminal required.
-
-### A real server, for you or your team
-
-<a id="host"></a>
+- Node.js 20 or newer
+- npm
 
 ```bash
-git clone https://github.com/agent0ai/space-agent.git
-cd space-agent
-npm install
+npm install --omit=optional
+npm run dev -- PORT=0 CUSTOMWARE_PATH="$HOME/.jcn/space-agent/customware" SINGLE_USER_APP=true
+```
 
-# create yourself an admin
-node space user create admin --password "change-me-now" --full-name "Admin" --groups _admin
+The server prints a line like:
 
-# start the server
+```text
+space server listening at http://127.0.0.1:49637
+```
+
+Open that URL in your browser. `PORT=0` lets macOS choose an open port. `CUSTOMWARE_PATH` keeps writable user and group state outside the source checkout. `SINGLE_USER_APP=true` signs you in as the local admin-style `user` account, which is the fastest development mode.
+
+Stop the server with `Ctrl-C`.
+
+## Run With A Login
+
+Use this when you want the normal login flow and named local users.
+
+```bash
+npm install --omit=optional
+node space set CUSTOMWARE_PATH="$HOME/.jcn/space-agent/customware"
+node space user create justyn --password "change-me-now" --full-name "Justyn Clark" --groups _admin
 node space serve
 ```
 
-### For development
+Then open the printed local URL and sign in as `justyn`.
+
+Useful notes:
+
+- `node space serve PORT=0` also works if you want a random free port.
+- `node space get` shows stored runtime parameters.
+- `node space help` lists the command surface.
+- `node space help user` and `node space help group` show user and group command details.
+
+## Development
+
+For ordinary source work:
 
 ```bash
-npm run dev # server with auto-reload
+npm run dev -- PORT=0 CUSTOMWARE_PATH="$HOME/.jcn/space-agent/customware" SINGLE_USER_APP=true
 ```
 
-Open the checked-in VS Code launch entry `Dev Server (npm run dev)` when you want breakpoints in `server/` code. It launches the same watcher and auto-attaches to the spawned `node space serve` process across restarts.
+`npm run dev` runs `server/dev_server.js`, watches `space`, `commands/`, and `server/`, and restarts the child `node space serve` process after server-side source changes.
 
-### For production
+For a direct server run without the watcher:
 
 ```bash
-node space set CUSTOMWARE_PATH=/srv/space/customware
-node space supervise HOST=0.0.0.0 PORT=3000 # zero downtime auto-update
+node space serve PORT=0 CUSTOMWARE_PATH="$HOME/.jcn/space-agent/customware" SINGLE_USER_APP=true
 ```
 
-Run `node space help` to see the full command surface and built-in help for each from [`commands/params.yaml`](./commands/params.yaml).
+For a production-style source checkout:
 
-## AI-driven development and documentation
+```bash
+node space supervise HOST=0.0.0.0 PORT=3000 CUSTOMWARE_PATH="$HOME/.jcn/space-agent/customware"
+```
 
-Space Agent is developed by AI agents, including its documentation.
+`supervise` owns zero-downtime child restarts and source-checkout update flow. It requires `CUSTOMWARE_PATH` so writable state survives source release swaps.
 
-The framework keeps a hierarchical `AGENTS.md` instruction system, plus skills and focused docs, so agents can understand ownership, architecture, workflows, and local implementation rules while they build and maintain the system autonomously.
+## Desktop Builds
 
-Current JCN fork note, May 28, 2026: this branch adds JCN starter spaces,
-including the web audio lab and local LLM studio space. Those additions live in
-the same modular space system described above: they should remain removable,
-layered, and documented through the normal `AGENTS.md` and focused-doc pattern
-rather than becoming special-case core behavior.
+The source tree still supports the thin Electron host.
 
-DeepWiki covers the human-readable side of that same knowledge base. Together, this keeps the codebase and its documentation prepared for autonomous agent work, and helps the documentation keep up with the pace of AI-driven development instead of falling behind.
+```bash
+npm run install:packaging
+npm run package:desktop:macos:dev
+```
 
-If you want the deep tour, start here:
+The macOS dev package defaults to an unsigned unpacked app for local testing. Release-grade signing, notarization, and cross-platform packaging remain owned by the packaging docs and scripts.
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/agent0ai/space-agent)
+## Validation
+
+This repo does not currently define a single `npm test`, `npm run lint`, or `npm run format` suite with substantive commands. Use the smallest relevant checks for the area you changed.
+
+Good baseline checks:
+
+```bash
+git diff --check
+node tests/yaml_lite_test.mjs
+node --test tests/spaces_prompt_context_test.mjs tests/spaces_widget_import_test.mjs
+```
+
+For app startup validation:
+
+```bash
+npm run dev -- PORT=0 CUSTOMWARE_PATH="$(mktemp -d)" SINGLE_USER_APP=true
+```
+
+Wait for the `space server listening at ...` line, open the URL, and stop the server when done.
+
+## What This Runtime Is For
+
+JCN Space Agent is meant to become a personal and extensible operating surface for:
+
+- project awareness across the local JCN repo ecosystem
+- browser-first agent tools and widgets
+- local model and provider experimentation
+- music tooling, Web Audio, MIDI, REAPER-adjacent workflows, and creative dashboards
+- documentation-first agent development
+- recoverable user and group customware through layered app files
+
+The browser app in `app/` is the primary runtime. The Node.js server is infrastructure for page shells, auth, file APIs, module delivery, outbound fetch proxying, and optional desktop hosting.
+
+## Documentation Map
+
+Start here when changing the repo:
+
+- [AGENTS.md](./AGENTS.md): binding repo-wide contract, architecture, docs policy, and AGENTS file index
+- [app/AGENTS.md](./app/AGENTS.md): browser runtime, frontend-first rules, modules, and layers
+- [server/AGENTS.md](./server/AGENTS.md): thin backend infrastructure, routing, auth, APIs, and server boundaries
+- [commands/AGENTS.md](./commands/AGENTS.md): CLI command conventions and runtime parameters
+- [packaging/AGENTS.md](./packaging/AGENTS.md): Electron host and desktop packaging
+- [Spaces and widgets docs](./app/L0/_all/mod/_core/documentation/docs/app/spaces-and-widgets.md): space storage, widget contracts, and onboarding examples
+- [CLI docs](./app/L0/_all/mod/_core/documentation/docs/cli/commands-and-runtime-params.md): `space` commands and runtime params
+
+Documentation is part of the runtime contract in this repo. If code changes a stable surface, update the closest owning `AGENTS.md` and the matching supplemental docs in the same session.
+
+## Project Identity
+
+- Repository: `https://github.com/justyn-clark/space-agent`
+- Package name: `jcn-space-agent`
+- Desktop product name: `JCN Space Agent`
+- Primary owner: Justyn Clark / Justyn Clark Network
+
+Upstream-origin public links, community badges, and hosted-demo copy have been removed from this README. Any future public release links should point at the JCN-owned repository or a JCN-owned deployment.

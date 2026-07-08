@@ -1,12 +1,12 @@
 {
-  "name": "space-agent",
+  "name": "jcn-space-agent",
   "version": "0.36.0",
   "private": true,
-  "description": "Browser-first AI agent with a thin Node.js server.",
-  "author": "Jan Tomasek",
+  "description": "Justyn Clark Network browser-first AI workspace runtime.",
+  "author": "Justyn Clark",
   "repository": {
     "type": "git",
-    "url": "https://github.com/agent0ai/space-agent.git"
+    "url": "https://github.com/justyn-clark/space-agent.git"
   },
   "main": "packaging/desktop/main.js",
   "scripts": {
@@ -32,12 +32,12 @@
     "node": ">=20"
   },
   "build": {
-    "appId": "com.spaceagent.desktop",
-    "productName": "Space Agent",
+    "appId": "network.justynclark.spaceagent",
+    "productName": "JCN Space Agent",
     "npmRebuild": false,
     "publish": {
       "provider": "github",
-      "owner": "agent0ai",
+      "owner": "justyn-clark",
       "repo": "space-agent",
       "releaseType": "release"
     },
@@ -76,7 +76,7 @@
     "linux": {
       "icon": "packaging/platforms/linux/icons",
       "category": "Development",
-      "maintainer": "Jan Tomasek <info@space-agent.ai>",
+      "maintainer": "Justyn Clark",
       "target": [
         "AppImage"
       ]
@@ -95,7 +95,8 @@
   "dependencies": {
     "archiver": "^7.0.1",
     "electron-updater": "^6.8.3",
-    "isomorphic-git": "^1.37.4"
+    "isomorphic-git": "^1.37.4",
+    "semver": "^7.8.5"
   },
   "overrides": {
     "lodash": "4.18.1"

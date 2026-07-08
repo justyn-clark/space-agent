@@ -11,6 +11,7 @@ This doc covers the spaces runtime because it is one of the most important agent
 - `app/L0/_all/mod/_core/spaces/onboarding/empty-canvas-examples.js`
 - `app/L0/_all/mod/_core/spaces/onboarding/empty-canvas-example-helpers.js`
 - `app/L0/_all/mod/_core/spaces/onboarding/examples/`
+- `app/L0/_all/mod/_core/spaces/onboarding/example_spaces/`
 - `app/L0/_all/mod/_core/spaces/onboarding/first-login-onboarding.js`
 - `app/L0/_all/mod/_core/spaces/ext/skills/spaces/SKILL.md`
 - `app/L0/_all/mod/_core/spaces/ext/skills/space-widgets/SKILL.md`
@@ -151,6 +152,8 @@ Rules:
 - load the example buttons from `_core/spaces/onboarding/empty-canvas-examples.yaml` instead of a hardcoded prompt array; each entry supplies visible button text, may also supply a separate submitted `prompt` string for chat launches, plus icon, color, and a JavaScript click body compiled by `_core/spaces/onboarding/empty-canvas-examples.js`
 - keep example-button hover and focus feedback hitbox-stable; use border, background, outline, or opacity changes instead of translate-based lift so the pointer does not slip off the button when entering from an edge
 - keep that example-button catalog curated rather than exhaustive; weather should stay available through bundled presets such as `Daily News` or by asking the agent directly, not as a separate standalone top-level example card
+- full example-space entries should install from `_core/spaces/onboarding/example_spaces/` through `space.spaces.installExampleSpace(...)` when a curated demo needs a stable `space.yaml`, explicit multi-widget layout, and shared current-space `scripts/` modules instead of one-off widget copies
+- the `JCN Command Center` full example space is the current scaled productivity cockpit template: it opens twelve coordinated widgets for project inventory, worktree risk, dev services, evidence, Pulse/ORE/publishing, project-aware QA, music operations, Web Audio sound intents, audio asset inspection, MIDI/jazz practice, REAPER control, and creative pipeline monitoring
 - the top-left weather chat example should read `Create a weather report` and send a short instruction that tells the agent to get approximate location from `https://ipapi.co/json/`, avoid exact browser geolocation, fetch weather from `https://api.met.no/weatherapi/locationforecast/2.0/compact`, use the shared `pdf-report` skill to create and download a browser PDF report with report-specific structure and styling instead of a canned template, and end with a brief weather summary reply
 - the center chat example should keep the visible label `Flip the space` but send `Rotate the whole page by another 180 degrees from whatever its current rotation is. Do not reset it to an absolute orientation or reuse the same fixed transform value; preserve the current rotation state and add 180 degrees with a two-second CSS transition.` so repeated launches ask for a cumulative re-flip instead of the same absolute transform
 - the bottom-right chat example should keep the visible label `Check documentation` but send a prompt that tells the agent to load the top-level `documentation` skill first, then ask the user exactly `What would you like to know from the documentation?`

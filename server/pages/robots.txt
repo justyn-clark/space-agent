@@ -9,8 +9,7 @@ Disallow: /L1/
 Disallow: /L2/
 Disallow: /~/
 
-Sitemap: https://space-agent.ai/sitemap.xml
-
-# LLM context files
-# https://space-agent.ai/llms.txt
-# https://space-agent.ai/llms-full.txt
+# This JCN-owned source tree may be served from local or deployment-specific hosts.
+# LLM context files:
+# /llms.txt
+# /llms-full.txt

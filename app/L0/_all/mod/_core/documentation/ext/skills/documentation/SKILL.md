@@ -13,7 +13,7 @@ helper
 workflow
 - Start with the built-in documentation index below unless you already know the exact doc path
 - Use one focused `read("path/to/file.md")` call instead of loading many large docs blindly
-- Treat `/README.md` as the public product source of truth for the project pitch, quick starts, release links, community links, and DeepWiki discovery
+- Treat `/README.md` as the public JCN project source of truth for the project pitch, local quick starts, source and release links, and documentation map
 - After orientation, confirm the concrete contract in the owning `AGENTS.md` file and then inspect code when needed
 - For visual or modal work, confirm `app/L0/_all/mod/_core/visual/AGENTS.md` before changing dialog shells, buttons, cards, popovers, or other shared UI primitives
 - For dashboard panel creation, panel manifests, or panel-navigation helpers, start with `app/modules-and-extensions.md`

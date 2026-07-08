@@ -1,0 +1,16 @@
+schema: space-widget/v1
+id: project-aware-qa-console
+name: Project-Aware QA Console
+cols: 8
+rows: 6
+col: 16
+row: 6
+metadata:
+  example: true
+  suite: jcn-command-center
+  purpose: "Surface registry, risk plan, and verification command builder."
+renderer: |-
+  async (parent, currentSpace, context) => {
+    const center = await context.import("scripts/command-center.js")
+    return center.render(parent, currentSpace, context, "project-aware-qa-console")
+  }

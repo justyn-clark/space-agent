@@ -1,0 +1,16 @@
+schema: space-widget/v1
+id: projects-atlas
+name: Projects Atlas
+cols: 8
+rows: 6
+col: 0
+row: 0
+metadata:
+  example: true
+  suite: jcn-command-center
+  purpose: "Searchable map of the local JCN project ecosystem."
+renderer: |-
+  async (parent, currentSpace, context) => {
+    const center = await context.import("scripts/command-center.js")
+    return center.render(parent, currentSpace, context, "projects-atlas")
+  }

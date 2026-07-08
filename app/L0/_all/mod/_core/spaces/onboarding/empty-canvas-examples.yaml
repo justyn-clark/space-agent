@@ -7,6 +7,14 @@ examples:
       await helpers.getSpacesRuntime().installExampleSpace({
         sourcePath: "L0/_all/mod/_core/spaces/onboarding/example_spaces/jcn-web-audio-lab/"
       })
+  - text: JCN Command Center
+    kind: widget
+    icon: dashboard_customize
+    color: "#7dd3fc"
+    code: |
+      await helpers.getSpacesRuntime().installExampleSpace({
+        sourcePath: "L0/_all/mod/_core/spaces/onboarding/example_spaces/jcn-command-center/"
+      })
   - text: JCN Mission Control
     kind: widget
     icon: space_dashboard

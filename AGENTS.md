@@ -232,7 +232,7 @@ Project concepts:
 - `node space supervise CUSTOMWARE_PATH=<path>` to run the production-ready zero-downtime auto-update supervisor for source checkouts
 - `npm run install:packaging` to install packaging-only dependencies
 - `npm run desktop:dev`, `npm run desktop:pack`, `npm run desktop:dist`, and `npm run package:desktop:macos:dev` for the Electron host and packaging flow, with the macOS dev build command producing the default unpacked local `.app` bundle
-- `.github/workflows/release-desktop.yml` builds tagged desktop releases for Windows, macOS, and Linux on both x64 and arm64; automatic tag runs and manual `workflow_dispatch` reruns both require the selected `v*` tag to be on `main` history, and both skip only when a newer `v*` tag is already on `main` after it; every publish updates the GitHub Release for that tag before uploading clobbered artifacts selected by `packaging/release-asset-filters.yaml` with uniform `Space-Agent-<release version>-<platform>-<arch>.<extension>` asset names that collapse a redundant trailing `.0` patch to the project's normal two-segment release version
+- `.github/workflows/release-desktop.yml` builds tagged desktop releases for Windows, macOS, and Linux on both x64 and arm64; automatic tag runs and manual `workflow_dispatch` reruns both require the selected `v*` tag to be on `main` history, and both skip only when a newer `v*` tag is already on `main` after it; every publish updates the GitHub Release for that tag before uploading clobbered artifacts selected by `packaging/release-asset-filters.yaml` with uniform `JCN-Space-Agent-<release version>-<platform>-<arch>.<extension>` asset names that collapse a redundant trailing `.0` patch to the project's normal two-segment release version
 
 ## Documentation System
 
@@ -264,7 +264,7 @@ Child-doc obligations:
 
 Core ownership:
 
-- `/README.md` owns the public-facing project overview, quick starts, call-to-action links, community links, release entry points, video links, DeepWiki discovery link, and public hero artwork; it must point back to the binding `AGENTS.md` contract instead of replacing it
+- `/README.md` owns the public-facing JCN project overview, local quick starts, source and release entry points, and documentation map; it must point back to the binding `AGENTS.md` contract instead of replacing it
 - `/AGENTS.md` owns repo-wide rules, documentation policy, top-level structure, and cross-cutting principles
 - `/app/AGENTS.md` owns browser-runtime architecture, layer rules, frontend composition rules, and app-wide guidance
 - `/server/AGENTS.md` owns server responsibilities, request flow, API/module/page boundaries, and server-wide infrastructure guidance

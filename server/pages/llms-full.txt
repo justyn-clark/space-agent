@@ -1,18 +1,19 @@
-# Space Agent
+# JCN Space Agent
 
-> Browser-first AI agent runtime for building AI spaces, tools, widgets, and workflows directly in the browser, with a thin Node.js server for infrastructure, auth, and local hosting.
+> Justyn Clark Network browser-first AI workspace runtime for spaces, tools, widgets, music workflows, and local project operations.
 
 ## Summary
 
-Space Agent is a browser-first AI agent runtime from Agent Zero. The core idea is that the agent works inside the same frontend runtime that the user sees, instead of being bolted onto a fixed application surface. Users can ask the agent to build pages, tools, widgets, workflows, and other capabilities directly into the running workspace.
+JCN Space Agent is the JCN-owned Space Agent source tree. It keeps the browser-first runtime architecture while making the source, package metadata, and public documentation fit Justyn Clark's local tool ecosystem instead of the original upstream distribution.
 
-The browser app is the primary runtime. The Node.js side exists as narrow infrastructure around it: outbound fetch proxying when browser requests would hit CORS limits, server-owned APIs and auth/session boundaries, local development support, and optional desktop hosting.
+The browser app is the primary runtime. The Node.js side exists as narrow infrastructure around it: page shells, authentication, app-file APIs, module delivery, outbound fetch proxying, local development support, and optional desktop hosting.
 
-The public site at `space-agent.ai` is the live demo entry point. The same project can also run as a desktop app or as a self-hosted server.
+This repo is intended to become a personal and extensible operating surface for the JCN project ecosystem, including project awareness, browser-first agent tools, widgets, local model experimentation, Web Audio and MIDI workflows, REAPER-adjacent control surfaces, and recoverable user or group customware.
 
-## What Makes Space Agent Different
+## What Makes It Different
 
-- The agent reshapes the interface instead of staying trapped inside a fixed product surface.
+- The agent can reshape the interface instead of staying trapped inside a fixed product surface.
+- Spaces and widgets are first-class browser runtime surfaces.
 - The runtime is modular and layered, so capabilities can be added, removed, or swapped without welding everything into one rigid app.
 - New capabilities can live in simple `SKILL.md` files, which keeps extension work text-first and agent-friendly.
 - The system supports personal use as well as hierarchical group use, with per-user workspaces and shared group layers.
@@ -26,69 +27,74 @@ The public site at `space-agent.ai` is the live demo entry point. The same proje
 - Admin isolation: the `/admin` surface stays firmware-backed even when writable layers exist.
 - Documentation-first development: the repository uses a hierarchical `AGENTS.md` contract system so agents can understand ownership, architecture, and local implementation rules before changing code.
 
-## Ways To Use It
+## Fast Local Launch
 
-### Live Demo
-
-Use `https://space-agent.ai` to try the hosted demo server with guest access when available.
-
-### Desktop App
-
-Download the latest desktop build from:
-
-- [Latest desktop release](https://github.com/agent0ai/space-agent/releases/latest)
-
-The desktop app runs the same browser-first runtime inside a packaged host, without requiring the user to manage a separate terminal session.
-
-### Self-Hosted Server
-
-Quick start from the README:
+Use this path when you just want the app running locally without creating users or passwords:
 
 ```bash
-git clone https://github.com/agent0ai/space-agent.git
-cd space-agent
-npm install
-node space user create admin --password "change-me-now" --full-name "Admin" --groups _admin
+npm install --omit=optional
+npm run dev -- PORT=0 CUSTOMWARE_PATH="$HOME/.jcn/space-agent/customware" SINGLE_USER_APP=true
+```
+
+Open the printed `space server listening at ...` URL. `PORT=0` asks the OS for a free port, `CUSTOMWARE_PATH` keeps writable user and group state outside the source checkout, and `SINGLE_USER_APP=true` signs the browser in as the local `user` account.
+
+## Login-Based Local Launch
+
+Use this path when you want named users and the normal login shell:
+
+```bash
+npm install --omit=optional
+node space set CUSTOMWARE_PATH="$HOME/.jcn/space-agent/customware"
+node space user create justyn --password "change-me-now" --full-name "Justyn Clark" --groups _admin
 node space serve
 ```
 
-For production-style hosting, the project also supports:
-
-```bash
-node space set CUSTOMWARE_PATH=/srv/space/customware
-node space supervise HOST=0.0.0.0 PORT=3000
-```
+Then open the printed local URL and sign in as `justyn`.
 
 ## Key Commands
 
-- `node space serve`: run the server directly
-- `node space supervise`: run the zero-downtime supervisor for source checkouts
-- `npm run dev`: run the local development supervisor with auto-reload
-- `node space get` and `node space set`: inspect or store runtime parameters
-- `node space user create`: create a user such as an initial admin
+- `npm run dev`: run the local development supervisor with auto-reload.
+- `node space serve`: run the server directly.
+- `node space supervise`: run the zero-downtime supervisor for source checkouts.
+- `node space get` and `node space set`: inspect or store runtime parameters.
+- `node space user create`: create a user such as an initial admin.
+- `node space help`: list command families and built-in help.
+
+## Validation
+
+There is not currently one substantive all-in-one `npm test`, `npm run lint`, or `npm run format` suite. Use the smallest relevant checks for the area that changed.
+
+Good baseline checks:
+
+```bash
+git diff --check
+node tests/yaml_lite_test.mjs
+node --test tests/spaces_prompt_context_test.mjs tests/spaces_widget_import_test.mjs
+```
+
+For app startup validation:
+
+```bash
+npm run dev -- PORT=0 CUSTOMWARE_PATH="$(mktemp -d)" SINGLE_USER_APP=true
+```
 
 ## Documentation And Agent Development
 
-Space Agent is developed with AI agents in mind. The repository keeps a documentation hierarchy rooted in `AGENTS.md`, with deeper `AGENTS.md` files for app, server, commands, packaging, tests, and important subsystems. These files are treated as binding runtime and architecture contracts for agents, not optional notes.
+This repository keeps a documentation hierarchy rooted in `AGENTS.md`, with deeper `AGENTS.md` files for app, server, commands, packaging, tests, and important subsystems. These files are binding runtime and architecture contracts for agents, not optional notes.
 
 The project also uses plain-text `SKILL.md` files for agent capabilities and focused workflows. This keeps much of the extension surface readable and writable by both humans and agents without inventing heavyweight custom formats.
 
-For a human-readable tour of the same codebase and concepts, use:
+Important source docs:
 
-- [DeepWiki](https://deepwiki.com/agent0ai/space-agent)
-
-For the primary public product overview and quick starts, use:
-
-- [README.md](https://raw.githubusercontent.com/agent0ai/space-agent/main/README.md)
-
-For the architecture and ownership contract map that governs changes in-repo, use:
-
-- [AGENTS.md](https://raw.githubusercontent.com/agent0ai/space-agent/main/AGENTS.md)
+- [README.md](https://raw.githubusercontent.com/justyn-clark/space-agent/main/README.md)
+- [AGENTS.md](https://raw.githubusercontent.com/justyn-clark/space-agent/main/AGENTS.md)
+- [App contract](https://raw.githubusercontent.com/justyn-clark/space-agent/main/app/AGENTS.md)
+- [Server contract](https://raw.githubusercontent.com/justyn-clark/space-agent/main/server/AGENTS.md)
+- [Commands contract](https://raw.githubusercontent.com/justyn-clark/space-agent/main/commands/AGENTS.md)
+- [Packaging contract](https://raw.githubusercontent.com/justyn-clark/space-agent/main/packaging/AGENTS.md)
 
 ## Important Links
 
-- [Live site](https://space-agent.ai/)
-- [Public login shell](https://space-agent.ai/login)
-- [GitHub repository](https://github.com/agent0ai/space-agent)
-- [Latest desktop release](https://github.com/agent0ai/space-agent/releases/latest)
-- [Agent Zero](https://agent-zero.ai)
+- [GitHub repository](https://github.com/justyn-clark/space-agent)
+- [Latest desktop release](https://github.com/justyn-clark/space-agent/releases/latest)
+- [Root README](https://github.com/justyn-clark/space-agent#readme)

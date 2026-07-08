@@ -7,7 +7,7 @@ This repo has three documentation surfaces on purpose.
 `README.md`:
 
 - is the public product source of truth
-- explains what Space Agent is, how to start it, and where to find community, releases, and DeepWiki
+- explains what JCN Space Agent is, how to start it locally, and where to find source, releases, and binding documentation
 - must link back to the binding implementation docs instead of replacing them
 
 `AGENTS.md` files:
@@ -60,7 +60,7 @@ When a stable contract or workflow changes:
 - update parent `AGENTS.md` files when the broader boundary changed
 - update the relevant docs in this module
 - update `ext/skills/documentation/SKILL.md` if you add, remove, rename, or repurpose docs
-- update `README.md` when the public project pitch, quick-start flow, release path, community link, or DeepWiki indexing link changes
+- update `README.md` when the public project pitch, local quick-start flow, release path, source link, or documentation map changes
 
 What does not belong here:
 

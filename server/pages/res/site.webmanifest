@@ -1,7 +1,7 @@
 {
-  "name": "Space Agent",
-  "short_name": "Space Agent",
-  "description": "Browser-first AI agent runtime.",
+  "name": "JCN Space Agent",
+  "short_name": "JCN Space",
+  "description": "Justyn Clark Network browser-first AI workspace runtime.",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

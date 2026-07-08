@@ -213,14 +213,14 @@ test("packaged desktop updater keeps canonical Windows release asset naming stab
       version: "0.52.0",
       arch: "x64"
     }),
-    "Space-Agent-0.52-windows-x64.exe"
+    "JCN-Space-Agent-0.52-windows-x64.exe"
   );
   assert.equal(
     resolveDesktopWindowsReleaseAssetFileName({
       version: "0.52.0",
       arch: "arm64"
     }),
-    "Space-Agent-0.52-windows-arm64.exe"
+    "JCN-Space-Agent-0.52-windows-arm64.exe"
   );
 });
 
@@ -229,7 +229,7 @@ test("packaged desktop updater detects Windows metadata that is missing the curr
     version: "0.52.0",
     files: [
       {
-        url: "Space-Agent-0.52-windows-arm64.exe",
+        url: "JCN-Space-Agent-0.52-windows-arm64.exe",
         sha512: "abc123",
         size: "1"
       }
@@ -237,11 +237,11 @@ test("packaged desktop updater detects Windows metadata that is missing the curr
   };
 
   assert.equal(findDesktopWindowsReleaseFile(armOnlyInfo, "x64"), null);
-  assert.equal(findDesktopWindowsReleaseFile(armOnlyInfo, "arm64")?.url, "Space-Agent-0.52-windows-arm64.exe");
+  assert.equal(findDesktopWindowsReleaseFile(armOnlyInfo, "arm64")?.url, "JCN-Space-Agent-0.52-windows-arm64.exe");
   assert.deepEqual(resolveDesktopWindowsReleaseArchFallback(armOnlyInfo, "x64"), {
-    actualFiles: ["Space-Agent-0.52-windows-arm64.exe"],
+    actualFiles: ["JCN-Space-Agent-0.52-windows-arm64.exe"],
     expectedArch: "x64",
-    expectedFileName: "Space-Agent-0.52-windows-x64.exe"
+    expectedFileName: "JCN-Space-Agent-0.52-windows-x64.exe"
   });
   assert.equal(resolveDesktopWindowsReleaseArchFallback(armOnlyInfo, "arm64"), null);
   assert.equal(
@@ -250,12 +250,12 @@ test("packaged desktop updater detects Windows metadata that is missing the curr
         version: "0.52.0",
         files: [
           {
-            url: "Space-Agent-0.52-windows-arm64.exe",
+            url: "JCN-Space-Agent-0.52-windows-arm64.exe",
             sha512: "abc123",
             size: "1"
           },
           {
-            url: "Space-Agent-0.52-windows-x64.exe",
+            url: "JCN-Space-Agent-0.52-windows-x64.exe",
             sha512: "def456",
             size: "2"
           }
@@ -270,7 +270,7 @@ test("packaged desktop updater detects Windows metadata that is missing the curr
 test("packaged desktop debug reinstall stages same-version and downgrade releases against canonical GitHub assets", async () => {
   const publishConfig = {
     provider: "github",
-    owner: "agent0ai",
+    owner: "justyn-clark",
     repo: "space-agent"
   };
   const fetchCalls = [];
@@ -280,13 +280,13 @@ test("packaged desktop debug reinstall stages same-version and downgrade release
       ? [
           "version: 0.48.0",
           "files:",
-          "  - url: Space Agent 0.48 windows x64.exe",
+          "  - url: JCN-Space-Agent-0.48-windows-x64.exe",
           "    sha512: def456"
         ].join("\n")
       : [
           "version: 0.49.0",
           "files:",
-          "  - url: Space Agent 0.49 windows x64.exe",
+          "  - url: JCN-Space-Agent-0.49-windows-x64.exe",
           "    sha512: abc123"
         ].join("\n");
   };
@@ -316,13 +316,13 @@ test("packaged desktop debug reinstall stages same-version and downgrade release
   );
   assert.equal(
     sameVersionStage.provider.resolveFiles(sameVersionStage.info)[0].url.href,
-    "https://github.com/agent0ai/space-agent/releases/download/v0.49/Space-Agent-0.49-windows-x64.exe"
+    "https://github.com/justyn-clark/space-agent/releases/download/v0.49/JCN-Space-Agent-0.49-windows-x64.exe"
   );
   assert.equal(downgradeStage.comparison, -1);
   assert.equal(downgradeStage.tag, "v0.48");
   assert.deepEqual(fetchCalls, [
-    "https://github.com/agent0ai/space-agent/releases/download/v0.49/metadata-latest-windows.yml",
-    "https://github.com/agent0ai/space-agent/releases/download/v0.48/metadata-latest-windows.yml"
+    "https://github.com/justyn-clark/space-agent/releases/download/v0.49/metadata-latest-windows.yml",
+    "https://github.com/justyn-clark/space-agent/releases/download/v0.48/metadata-latest-windows.yml"
   ]);
 });
 
@@ -366,7 +366,7 @@ test("packaged desktop updater cleanup keeps cached blockmaps but removes stale 
   await fs.mkdir(legacyPendingPath, {
     recursive: true
   });
-  await fs.writeFile(path.join(currentPendingPath, "Space-Agent-0.48-windows-x64.exe"), "installer\n", "utf8");
+  await fs.writeFile(path.join(currentPendingPath, "JCN-Space-Agent-0.48-windows-x64.exe"), "installer\n", "utf8");
   await fs.writeFile(path.join(currentCacheRoot, "current.blockmap"), "blockmap\n", "utf8");
   await fs.writeFile(path.join(legacyPendingPath, "Agent-One-0.41-windows-x64.exe"), "installer\n", "utf8");
 

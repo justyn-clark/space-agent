@@ -1,27 +1,24 @@
-# Space Agent
+# JCN Space Agent
 
-> Browser-first AI agent runtime for building AI spaces, tools, widgets, and workflows directly in the browser, with a thin Node.js server for infrastructure, auth, and local hosting.
+> Justyn Clark Network browser-first AI workspace runtime for spaces, tools, widgets, music workflows, and local project operations.
 
-Space Agent is the browser-first runtime from Agent Zero. The browser app is the primary runtime; the Node.js side exists mainly for outbound fetch proxying, server-owned APIs, local development, and optional desktop hosting. The project is modular, layered, and designed for AI-driven development through `AGENTS.md` contracts and plain-text `SKILL.md` files.
+JCN Space Agent is the JCN-owned Space Agent source tree. The browser app is the primary runtime; the Node.js side exists mainly for page shells, auth, app-file APIs, outbound fetch proxying, local development, and optional desktop hosting. The repo is modular, layered, and designed for documentation-first agent development through `AGENTS.md` contracts and plain-text `SKILL.md` files.
 
-Use `llms-full.txt` for the longer project description. Use the README for quick starts and hosting instructions, and use the AGENTS docs when you need the architecture and ownership map that guides changes in this repository.
+Use `llms-full.txt` for the longer project description. Use the README for local run instructions, and use the AGENTS docs when you need the ownership and architecture map that guides changes in this repository.
 
 ## Project
 
-- [Space Agent full context](https://space-agent.ai/llms-full.txt): Expanded project summary derived from the current README and runtime contracts.
-- [GitHub README](https://raw.githubusercontent.com/agent0ai/space-agent/main/README.md): Product overview, quick starts, desktop app, self-hosting, and development entry points.
-- [Repo-wide AGENTS contract](https://raw.githubusercontent.com/agent0ai/space-agent/main/AGENTS.md): Documentation map, ownership rules, and top-level architecture.
+- [JCN Space Agent full context](https://github.com/justyn-clark/space-agent/blob/main/server/pages/llms-full.txt): Expanded project summary derived from the current README and runtime contracts.
+- [GitHub README](https://raw.githubusercontent.com/justyn-clark/space-agent/main/README.md): Local setup, development, desktop packaging, and documentation entry points.
+- [Repo-wide AGENTS contract](https://raw.githubusercontent.com/justyn-clark/space-agent/main/AGENTS.md): Documentation map, ownership rules, and top-level architecture.
 
-## Public Entry Points
+## Source And Releases
 
-- [Live site](https://space-agent.ai/): Public Space Agent URL used for sharing and the hosted demo entry point.
-- [Public login shell](https://space-agent.ai/login): Public shell for the hosted demo server.
+- [GitHub repository](https://github.com/justyn-clark/space-agent): JCN-owned source repository.
+- [Latest desktop release](https://github.com/justyn-clark/space-agent/releases/latest): JCN-owned desktop release channel when published.
 
-## Downloads And Docs
+## Local Runtime
 
-- [Latest desktop release](https://github.com/agent0ai/space-agent/releases/latest): Current desktop app binaries.
-- [DeepWiki](https://deepwiki.com/agent0ai/space-agent): Human-readable tour of the codebase and architecture.
-
-## Optional
-
-- [Agent Zero](https://agent-zero.ai): Related Agent Zero project and ecosystem site.
+- `npm run dev -- PORT=0 CUSTOMWARE_PATH="$HOME/.jcn/space-agent/customware" SINGLE_USER_APP=true`: fastest local development launch.
+- `node space serve PORT=0 CUSTOMWARE_PATH="$HOME/.jcn/space-agent/customware" SINGLE_USER_APP=true`: direct local server launch.
+- `node space supervise HOST=0.0.0.0 PORT=3000 CUSTOMWARE_PATH="$HOME/.jcn/space-agent/customware"`: production-style source checkout supervisor.

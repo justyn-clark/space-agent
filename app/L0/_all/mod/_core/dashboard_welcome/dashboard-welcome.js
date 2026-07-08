@@ -20,34 +20,19 @@ const EXAMPLE_ORDER = Object.freeze([
 ]);
 const RESOURCE_LINKS = Object.freeze([
   {
-    href: "https://github.com/agent0ai/space-agent",
+    href: "https://github.com/justyn-clark/space-agent",
     id: "github-repo",
     label: "GitHub Repo"
   },
   {
-    href: "https://deepwiki.com/agent0ai/space-agent",
-    id: "deepwiki-docs",
-    label: "DeepWiki Docs"
+    href: "https://github.com/justyn-clark/space-agent#readme",
+    id: "readme",
+    label: "README"
   },
   {
-    href: "https://agent-zero.ai",
-    id: "agent-zero-site",
-    label: "Agent Zero"
-  },
-  {
-    href: "https://discord.gg/B8KZKNsPpj",
-    id: "discord",
-    label: "Discord"
-  },
-  {
-    href: "https://www.youtube.com/@AgentZeroFW",
-    id: "youtube",
-    label: "YouTube"
-  },
-  {
-    href: "https://x.com/Agent0ai",
-    id: "x",
-    label: "X"
+    href: "https://raw.githubusercontent.com/justyn-clark/space-agent/main/AGENTS.md",
+    id: "agents-contract",
+    label: "AGENTS Contract"
   }
 ]);
 const EXAMPLE_ORDER_INDEX = new Map(EXAMPLE_ORDER.map((id, index) => [id, index]));

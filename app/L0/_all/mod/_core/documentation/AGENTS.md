@@ -44,7 +44,7 @@ This module owns:
 - `documentation.js` should stay focused on explicit doc reads and URL resolution; broad orientation belongs in the documentation skill body, not in a second helper round-trip
 - markdown docs in this tree should stay standalone enough that the agent can load one file without needing large hidden context
 - docs in this tree should summarize stable architecture, helper surfaces, workflows, and navigation paths; binding contracts still live in `AGENTS.md`
-- `README.md` owns public project positioning, quick starts, release links, community links, and the DeepWiki badge; this module may summarize that relationship but should not duplicate the README's marketing copy
+- `README.md` owns public JCN project positioning, local quick starts, source and release links, and the documentation map; this module may summarize that relationship but should not duplicate the README's project copy
 - when a doc describes a routed runtime surface with multiple internal panes, capture the stable scroll and viewport-capping ownership there so layout behavior does not drift between modules
 - when a doc summarizes a runtime surface, it should name the primary source files and the owning `AGENTS.md` file so drift is easy to correct
 - keep docs grouped by logical area instead of one giant file

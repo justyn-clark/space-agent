@@ -1,0 +1,56 @@
+created_at: 2026-07-06T00:00:00.000Z
+id: jcn-command-center
+schema: spaces/v2
+updated_at: 2026-07-06T00:00:00.000Z
+title: JCN Command Center
+icon: dashboard_customize
+icon_color: "#7dd3fc"
+agent_instructions: |
+  This space is a high-leverage operator cockpit for the local JCN project ecosystem.
+  Treat every widget as a practical control surface for project awareness, verification, music tooling, creative work, and local operations.
+
+  Keep widgets browser-first and portable.
+  Prefer shared current-space scripts for common data, UI primitives, state, Web Audio, MIDI, and command construction.
+  Do not add backend access to local project folders unless the user explicitly asks for that server-owned capability.
+
+  When extending this space, favor dense operational surfaces over marketing copy.
+  Each widget should answer what matters now, what changed, what command proves it, and what the next useful action is.
+layout_order:
+  - projects-atlas
+  - worktree-risk-radar
+  - dev-services-board
+  - evidence-feed
+  - pulse-revenue-publishing
+  - project-aware-qa-console
+  - music-ops-board
+  - soundkit-intent-pad
+  - audio-asset-inspector
+  - midi-jazz-practice
+  - reaper-control
+  - creative-pipeline-monitor
+sizes:
+  projects-atlas: 8x6
+  worktree-risk-radar: 8x6
+  dev-services-board: 8x6
+  evidence-feed: 8x6
+  pulse-revenue-publishing: 8x6
+  project-aware-qa-console: 8x6
+  music-ops-board: 8x6
+  soundkit-intent-pad: 8x6
+  audio-asset-inspector: 8x6
+  midi-jazz-practice: 8x6
+  reaper-control: 8x6
+  creative-pipeline-monitor: 8x6
+positions:
+  projects-atlas: 0,0
+  worktree-risk-radar: 8,0
+  dev-services-board: 16,0
+  evidence-feed: 0,6
+  pulse-revenue-publishing: 8,6
+  project-aware-qa-console: 16,6
+  music-ops-board: 0,12
+  soundkit-intent-pad: 8,12
+  audio-asset-inspector: 16,12
+  midi-jazz-practice: 0,18
+  reaper-control: 8,18
+  creative-pipeline-monitor: 16,18
